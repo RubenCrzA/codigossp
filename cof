@@ -1,0 +1,37 @@
+
+// script.js
+function displayStars(rating) {
+    const starContainer = document.querySelector('.star-rating');
+    starContainer.innerHTML = ''; // Limpiar estrellas anteriores
+
+    // Crear estrellas enteras
+    for (let i = 1; i <= Math.floor(rating); i++) {
+        const star = document.createElement('span');
+        star.textContent = '★';
+        star.classList.add('star', 'full');
+        starContainer.appendChild(star);
+    }
+
+    // Crear estrella parcial si es necesario
+    if (rating % 1 !== 0) {
+        const partialStar = document.createElement('span');
+        partialStar.textContent = '★';
+        partialStar.classList.add('star', 'half');
+        starContainer.appendChild(partialStar);
+
+        // Ajuste el ancho para la parte visible de la estrella parcial
+        const partialWidth = (rating % 1) * 100;
+        partialStar.style.width = `${partialWidth}%`;
+    }
+
+    // Añadir estrellas vacías si es necesario
+    for (let i = Math.ceil(rating); i < 5; i++) {
+        const star = document.createElement('span');
+        star.textContent = '★';
+        star.classList.add('star');
+        starContainer.appendChild(star);
+    }
+}
+
+// Ejemplo de uso
+displayStars(3.2);
