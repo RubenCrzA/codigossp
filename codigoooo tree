@@ -350,3 +350,86 @@ const lstConsultaNoInteresado = [
 
 const htmlTabla = transformarListaEnTabla(lstConsultaNoInteresado);
 console.log(htmlTabla);  // Aquí puedes ver la tabla generada en formato HTML
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+_____________________PPPP____PPPP__
+
+
+
+function transformarListaEnTabla(lstConsultaNoInteresado) {
+    let tablaHtml = '<table border="1" cellspacing="0" cellpadding="5">';
+
+    // Crear el encabezado de la tabla
+    tablaHtml += '<thead><tr><th>DesMotivo / DescGrupo</th>';
+    
+    // Obtener todos los valores únicos de descGrupo para los encabezados de columna
+    const grupos = [...new Set(lstConsultaNoInteresado.map(item => item.descGrupo))];
+    
+    grupos.forEach(grupo => {
+        tablaHtml += `<th colspan="2">${grupo}</th>`;
+    });
+
+    tablaHtml += '</tr><tr><th></th>';
+    
+    // Crear los encabezados de columna para casos y monto
+    grupos.forEach(() => {
+        tablaHtml += '<th>Casos</th><th>Monto</th>';
+    });
+
+    tablaHtml += '</tr></thead><tbody>';
+
+    // Crear el contenido de la tabla
+    const motivos = [...new Set(lstConsultaNoInteresado.map(item => item.desMotivo))];
+
+    motivos.forEach(motivo => {
+        tablaHtml += `<tr><td>${motivo}</td>`;
+        
+        grupos.forEach(grupo => {
+            const datos = lstConsultaNoInteresado.filter(item => item.desMotivo === motivo && item.descGrupo === grupo);
+            
+            if (datos.length > 0) {
+                const casos = datos[0].casos;
+                const monto = datos[0].monto;
+                tablaHtml += `<td>${casos}</td><td>${monto}</td>`;
+            } else {
+                tablaHtml += '<td></td><td></td>';
+            }
+        });
+
+        tablaHtml += '</tr>';
+    });
+
+    tablaHtml += '</tbody></table>';
+
+    return tablaHtml;
+}
