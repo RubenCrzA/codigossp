@@ -1,195 +1,126 @@
-function cargaSubtabla(idTipoCamp, idCamp, cveGrupo, cveSubGrupo, propension, idEjecutivo) {
-    let idRegion = $("#regionAcciones2Credito").val() == "-1" ? "0" : $("#regionAcciones2Credito").val();
-    let idZona = $("#zonaAcciones2Credito").val() == "-1" ? "0" : $("#zonaAcciones2Credito").val();
-    let tipoCantidad2 = $("#tipoCantidad2Credito").val() == "-1" ? "0" : $("#tipoCantidad2Credito").val();
-    let idBuc = $("#bucAcciones2Credito").val() == "" ? "0" : $("#bucAcciones2Credito").val();
-    let idMudo = $("input[name=onoffswitch42Credito]:checked").val() == "on" ? "1" : "0";
-    let iniciativa2 = $("#iniciativa2Credito").val() == "-1" ? "" : $("#iniciativa2Credito").val();
-    let tipoCampPre = $("#idTipoCampPre2Credito").val() == "-1" ? "0" : $("#idTipoCampPre2Credito").val();
-    let estatusCamp2 = $("#estatusCamp2Credito").val() == "-1" ? "3" : $("#estatusCamp2Credito").val();
-    let estatusGestion2 = $("#estatusGestion2Credito").val() == "-1" ? "0" : $("#estatusGestion2Credito").val();
+$(document).ready(function() {
+    // Función para manejar el clic en las filas de ejecutivos
+    $(document).on('click', 'tr[data-id]', function() {
+        let idEjecutivo = $(this).data('id');
 
-    var propensionCredito = $("#propensionCredito").val() == "-1" ? "0" : $("#propensionCredito").val();
-    var campaniaCredito = idEjecutivo;
-    var idStatusCredito = $("#idEstatusCredito").val() == "-1" ? "0" : $("#idEstatusCredito").val();
-
-    let inicia = iniciativa2 == null ? "" : iniciativa2;
-
-    let acciones = { desEjecutivo: SelectTotalEjecutivos2Credito }
-
-    $.ajax({
-        type: "POST",
-        async: true,
-        dataType: "json",
-        contentType: 'application/json',
-        data: JSON.stringify(acciones),
-        url: "main/accionesTableau/getListCampaniaAgrupado.json?segmento=" + SelectTotalSegmento2Credito + "&idRegion=" + idRegion + "&idZona=" + idZona
-            + "&sucursal=" + SelectTotalSucursal2Credito + "&idTipoCamp=" + idTipoCamp + "&idTipoCantidad=" + tipoCantidad2
-            + "&idCamp=" + idCamp + "&idBuc=" + idBuc + "&idMudo=" + idMudo + "&iniciativaComercial=" + inicia + "&idTipoCampPre=" + tipoCampPre + "&estatusCamp=" + estatusCamp2 + "&estatusGestion=" + estatusGestion2 + "&cveGrupo=" + cveGrupo
-            + "&cveSubGrupo=" + cveSubGrupo
-            + "&propensionCredito=" + propensionCredito
-            + "&campaniaCredito=" + campaniaCredito
-            + "&idStatusCredito=" + idStatusCredito
-            + "&idNivelAgrupado=" + idEjecutivo,
-
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader(header, token);
-        },
-        success: function(lstCampanias) {
-            // Verificar si la subtabla ya está visible y ocultarla si es necesario
-            const existingSubtable = $("#subtabla-" + idEjecutivo);
-            if (existingSubtable.length) {
-                existingSubtable.remove();
-                return;
-            }
-
-            var tabla = '<tr class="subtabla" id="subtabla-' + idEjecutivo + '">';
-            tabla += '<td colspan="17">';
-            tabla += '<table class="table table-striped table-condensed table-hover">';
-            tabla += '<thead>';
-            tabla += '<tr>';
-            tabla += '<th class="estiloTabla">Subgrupo</th>';
-            tabla += '<th class="estiloTabla">N&uacute;m Ctes</th>';
-            tabla += '<th class="estiloTabla">Monto Ofertado</th>';
-            tabla += '<th class="estiloTabla" colspan="2" style="color: red;text-decoration: underline;">Gestionado</th>';
-            tabla += '<th class="estiloTabla">No <br> Interesado</th>';
-            tabla += '<th class="estiloTabla">No <br> contactable</th>';
-            tabla += '<th class="estiloTabla">Citas</th>';
-            tabla += '<th class="estiloTabla">Pipeline</th>';
-            tabla += '<th class="estiloTabla">Cierre <br> Cantado</th>';
-            tabla += '<th class="estiloTabla" colspan="2" style="text-decoration: underline;">Cierre Real</th>';
-            tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Gte Trx</th>';
-            tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Agro</th>';
-            tabla += '<th class="estiloTabla">Gesti&oacute;n <br> GetNet</th>';
-            tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Rof</th>';
-            tabla += '</tr>';
-            tabla += '</thead>';
-            tabla += '<tbody>';
-            if (lstCampanias.length > 0) {
-                $(lstCampanias).each(function(i, item) {
-                    var color = item.color == "Rojo" ? "red" : "#20c820";
-                    tabla += '<tr>';
-                    tabla += '<th style="font-size: small;">' + item.desEjecutivo + '</th>';
-                    tabla += '<th class="estiloTabla" color="' + color + '" style="color: ' + color + '">' + item.numClientes + '</th>';
-                    tabla += '<td class="estiloTabla" style="color: ' + color + '">' + item.montoOfertado + '</td>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionado + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.pctGestionado + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.noInteresado + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.noContactable + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.agenda + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.pipeline + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.cierreCantado + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.cierreReal + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.pctCierreReal + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionGteTx + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionAgro + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionGetnet + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionRof + '</th>';
-                    tabla += '</tr>';
-                });
+        // Alternar la visibilidad de la subtabla
+        let subtabla = $("#subtabla-" + idEjecutivo);
+        if (subtabla.length) {
+            // Si la subtabla ya existe, mostrarla/ocultarla
+            if (subtabla.is(':visible')) {
+                subtabla.hide();
             } else {
-                tabla += '<tr class="text-center">';
-                tabla += '<td colspan="15">No existe informaci&oacute;n para mostrar</td>';
-                tabla += '</tr>';
+                $('.subtabla').hide();  // Ocultar todas las subtablas
+                subtabla.show();  // Mostrar la subtabla correspondiente
             }
-            tabla += '</tbody>';
-            tabla += '</table>';
-            tabla += '</td>';
-            tabla += '</tr>';
-
-            // Insertar la subtabla debajo del tr clicado
-            $(`#${idEjecutivo}`).after(tabla);
-        } // FIN SUCCESS
+        } else {
+            // Si la subtabla no existe, cargar datos y mostrarla
+            cargaSubtabla(idEjecutivo);
+        }
     });
-}
 
+    // Función para cargar los datos en la subtabla
+    function cargaSubtabla(idEjecutivo) {
+        let idRegion = $("#regionAcciones2Credito").val() == "-1" ? "0" : $("#regionAcciones2Credito").val();
+        let idZona = $("#zonaAcciones2Credito").val() == "-1" ? "0" : $("#zonaAcciones2Credito").val();
+        let tipoCantidad2 = $("#tipoCantidad2Credito").val() == "-1" ? "0" : $("#tipoCantidad2Credito").val();
+        let idBuc = $("#bucAcciones2Credito").val() == "" ? "0" : $("#bucAcciones2Credito").val();
+        let idMudo = $("input[name=onoffswitch42Credito]:checked").val() == "on" ? "1" : "0";
+        let iniciativa2 = $("#iniciativa2Credito").val() == "-1" ? "" : $("#iniciativa2Credito").val();
+        let tipoCampPre = $("#idTipoCampPre2Credito").val() == "-1" ? "0" : $("#idTipoCampPre2Credito").val();
+        let estatusCamp2 = $("#estatusCamp2Credito").val() == "-1" ? "3" : $("#estatusCamp2Credito").val();
+        let estatusGestion2 = $("#estatusGestion2Credito").val() == "-1" ? "0" : $("#estatusGestion2Credito").val();
+        let propensionCredito = $("#propensionCredito").val() == "-1" ? "0" : $("#propensionCredito").val();
+        let campaniaCredito = idEjecutivo;
+        let idStatusCredito = $("#idEstatusCredito").val() == "-1" ? "0" : $("#idEstatusCredito").val();
+        let inicia = iniciativa2 == null ? "" : iniciativa2;
 
+        let acciones = { desEjecutivo: SelectTotalEjecutivos2Credito };
 
-function listaCampanias2Credito(idTipoCamp, idCamp, cveGrupo, cveSubGrupo, propension, idNivelAgrupado) {
-    let idRegion = $("#regionAcciones2Credito").val() == "-1" ? "0" : $("#regionAcciones2Credito").val();
-    let idZona = $("#zonaAcciones2Credito").val() == "-1" ? "0" : $("#zonaAcciones2Credito").val();
-    let tipoCantidad2 = $("#tipoCantidad2Credito").val() == "-1" ? "0" : $("#tipoCantidad2Credito").val();
-    let idBuc = $("#bucAcciones2Credito").val() == "" ? "0" : $("#bucAcciones2Credito").val();
-    let idMudo = $("input[name=onoffswitch42Credito]:checked").val() == "on" ? "1" : "0";
-    let iniciativa2 = $("#iniciativa2Credito").val() == "-1" ? "" : $("#iniciativa2Credito").val();
-    let tipoCampPre = $("#idTipoCampPre2Credito").val() == "-1" ? "0" : $("#idTipoCampPre2Credito").val();
-    let estatusCamp2 = $("#estatusCamp2Credito").val() == "-1" ? "3" : $("#estatusCamp2Credito").val();
-    let estatusGestion2 = $("#estatusGestion2Credito").val() == "-1" ? "0" : $("#estatusGestion2Credito").val();
+        $.ajax({
+            type: "POST",
+            async: true,
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify(acciones),
+            url: "main/accionesTableau/getListCampaniaAgrupado.json?segmento=" + SelectTotalSegmento2Credito + "&idRegion=" + idRegion + "&idZona=" + idZona
+                + "&sucursal=" + SelectTotalSucursal2Credito + "&idTipoCamp=" + idTipoCamp + "&idTipoCantidad=" + tipoCantidad2
+                + "&idCamp=" + idCamp + "&idBuc=" + idBuc + "&idMudo=" + idMudo + "&iniciativaComercial=" + inicia + "&idTipoCampPre=" + tipoCampPre + "&estatusCamp=" + estatusCamp2 + "&estatusGestion=" + estatusGestion2 + "&cveGrupo=" + cveGrupo
+                + "&cveSubGrupo=" + cveSubGrupo
+                + "&propensionCredito=" + propensionCredito
+                + "&campaniaCredito=" + campaniaCredito
+                + "&idStatusCredito=" + idStatusCredito
+                + "&idNivelAgrupado=" + idEjecutivo,
 
-    var propensionCredito = $("#propensionCredito").val() == "-1" ? "0" : $("#propensionCredito").val();
-    var campaniaCredito = idNivelAgrupado;
-    var idStatusCredito = $("#idEstatusCredito").val() == "-1" ? "0" : $("#idEstatusCredito").val();
-
-    let inicia = iniciativa2 == null ? "" : iniciativa2;
-
-    let acciones = { desEjecutivo: SelectTotalEjecutivos2Credito }
-
-    $.ajax({
-        type: "POST",
-        async: true,
-        dataType: "json",
-        contentType: 'application/json',
-        data: JSON.stringify(acciones),
-        url: "main/accionesTableau/getListCampaniaAgrupado.json?segmento=" + SelectTotalSegmento2Credito + "&idRegion=" + idRegion + "&idZona=" + idZona
-            + "&sucursal=" + SelectTotalSucursal2Credito + "&idTipoCamp=" + idTipoCamp + "&idTipoCantidad=" + tipoCantidad2
-            + "&idCamp=" + idCamp + "&idBuc=" + idBuc + "&idMudo=" + idMudo + "&iniciativaComercial=" + inicia + "&idTipoCampPre=" + tipoCampPre + "&estatusCamp=" + estatusCamp2 + "&estatusGestion=" + estatusGestion2 + "&cveGrupo=" + cveGrupo
-            + "&cveSubGrupo=" + cveSubGrupo
-            + "&propensionCredito=" + propensionCredito
-            + "&campaniaCredito=" + campaniaCredito
-            + "&idStatusCredito=" + idStatusCredito
-            + "&idNivelAgrupado=" + idNivelAgrupado,
-
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader(header, token);
-        },
-        success: function(lstCampanias) {
-            var tabla = '<table class="table table-striped table-condensed table-hover">';
-            tabla += '<tbody id="tablaCampTbody2CreditoLevel2">';
-            if (lstCampanias.length > 0) {
-                $(lstCampanias).each(function(i, item) {
-                    var color = item.color == "Rojo" ? "red" : "#20c820";
-                    if (item.desEjecutivo == "Totales") {
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function(lstCampanias) {
+                // Crear la subtabla
+                let tabla = '<tr class="subtabla" id="subtabla-' + idEjecutivo + '">';
+                tabla += '<td colspan="17">';
+                tabla += '<table class="table table-striped table-condensed table-hover">';
+                tabla += '<thead>';
+                tabla += '<tr>';
+                tabla += '<th class="estiloTabla">Subgrupo</th>';
+                tabla += '<th class="estiloTabla">N&uacute;m Ctes</th>';
+                tabla += '<th class="estiloTabla">Monto Ofertado</th>';
+                tabla += '<th class="estiloTabla" colspan="2" style="color: red;text-decoration: underline;">Gestionado</th>';
+                tabla += '<th class="estiloTabla">No <br> Interesado</th>';
+                tabla += '<th class="estiloTabla">No <br> contactable</th>';
+                tabla += '<th class="estiloTabla">Citas</th>';
+                tabla += '<th class="estiloTabla">Pipeline</th>';
+                tabla += '<th class="estiloTabla">Cierre <br> Cantado</th>';
+                tabla += '<th class="estiloTabla" colspan="2" style="text-decoration: underline;">Cierre Real</th>';
+                tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Gte Trx</th>';
+                tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Agro</th>';
+                tabla += '<th class="estiloTabla">Gesti&oacute;n <br> GetNet</th>';
+                tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Rof</th>';
+                tabla += '</tr>';
+                tabla += '</thead>';
+                tabla += '<tbody>';
+                if (lstCampanias.length > 0) {
+                    $(lstCampanias).each(function(i, item) {
+                        var color = item.color == "Rojo" ? "red" : "#20c820";
                         tabla += '<tr>';
                         tabla += '<th style="font-size: small;">' + item.desEjecutivo + '</th>';
-                    } else {
-                        tabla += '<tr id="' + item.idEjecutivo + '" onclick="cargaSubtabla(' + item.idTipoCamp + ', ' + item.idCamp + ', ' + item.cveGrupo + ', ' + item.cveSubGrupo + ', ' + propension + ', ' + item.idEjecutivo + ')" style="cursor: pointer;">';
-                        tabla += '<th style="font-size: small;">' + item.desEjecutivo + '</th>';
-                    }
-                    tabla += '<th class="estiloTabla" color="' + color + '" style="color: ' + color + '">' + item.numClientes + '</th>';
-                    tabla += '<td class="estiloTabla" style="color: ' + color + '">' + item.montoOfertado + '</td>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionado + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.pctGestionado + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.noInteresado + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.noContactable + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.agenda + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.pipeline + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.cierreCantado + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.cierreReal + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.pctCierreReal + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionGteTx + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionAgro + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionGetnet + '</th>';
-                    tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionRof + '</th>';
-                    tabla += '</tr>';
-                });
-            } else {
-                tabla += '<tr class="text-center">';
-                tabla += '<td colspan="15">No existe informaci&oacute;n para mostrar</td>';
+                        tabla += '<th class="estiloTabla" color="' + color + '" style="color: ' + color + '">' + item.numClientes + '</th>';
+                        tabla += '<td class="estiloTabla" style="color: ' + color + '">' + item.montoOfertado + '</td>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionado + '</th>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.pctGestionado + '</th>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.noInteresado + '</th>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.noContactable + '</th>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.agenda + '</th>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.pipeline + '</th>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.cierreCantado + '</th>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.cierreReal + '</th>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.pctCierreReal + '</th>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionGteTx + '</th>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionAgro + '</th>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionGetnet + '</th>';
+                        tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionRof + '</th>';
+                        tabla += '</tr>';
+                    });
+                } else {
+                    tabla += '<tr><td colspan="16">No hay datos disponibles</td></tr>';
+                }
+                tabla += '</tbody>';
+                tabla += '</table>';
+                tabla += '</td>';
                 tabla += '</tr>';
+
+                // Insertar la subtabla después de la fila del ejecutivo
+                $("tr[data-id='" + idEjecutivo + "']").after(tabla);
             }
-            tabla += '</tbody>';
-            tabla += '</table>';
-            $("#subtabla-" + idNivelAgrupado + " td").html(tabla);
-        } // FIN SUCCESS
-    });
-}
-$(document).ready(function() {
-    $(document).on('click', 'tr[id^="subtabla-"]', function() {
-        $(this).toggle();
-    });
+        });
+    }
+
+    // Función para agregar una fila de ejecutivo
+    function agregarFilaEjecutivo(idEjecutivo, datosEjecutivo) {
+        let fila = '<tr data-id="' + idEjecutivo + '">';
+        fila += '<td>' + datosEjecutivo.nombre + '</td>';
+        fila += '<td>' + datosEjecutivo.detalle + '</td>';
+        fila += '</tr>';
+        $('#tablaEjecutivos tbody').append(fila);
+    }
 });
-
-
-.subtabla {
-    display: none;
-}
