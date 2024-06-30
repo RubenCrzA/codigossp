@@ -1,33 +1,33 @@
 function transformarListaEnTabla(lstConsultaNoInteresado) {
     let tablaHtml = '<table border="1" cellspacing="0" cellpadding="5">';
 
-    // Obtener todos los valores únicos de desMotivo para los encabezados de fila
+    // Obtener todos los valores únicos de desMotivo para los encabezados de columna
     const motivos = [...new Set(lstConsultaNoInteresado.map(item => item.desMotivo))];
-    
-    // Obtener todos los valores únicos de descGrupo para los encabezados de columna
+
+    // Obtener todos los valores únicos de descGrupo para los encabezados de fila
     const grupos = [...new Set(lstConsultaNoInteresado.map(item => item.descGrupo))];
 
     // Crear el encabezado de la tabla
-    tablaHtml += '<thead><tr><th>DesMotivo / DescGrupo</th>';
+    tablaHtml += '<thead><tr><th>DescGrupo / DesMotivo</th>';
     
-    grupos.forEach(grupo => {
-        tablaHtml += `<th colspan="2">${grupo}</th>`;
+    motivos.forEach(motivo => {
+        tablaHtml += `<th colspan="2">${motivo}</th>`;
     });
 
     tablaHtml += '</tr><tr><th></th>';
     
     // Crear los encabezados de columna para casos y monto
-    grupos.forEach(() => {
+    motivos.forEach(() => {
         tablaHtml += '<th>Casos</th><th>Monto</th>';
     });
 
     tablaHtml += '</tr></thead><tbody>';
 
     // Crear el contenido de la tabla
-    motivos.forEach(motivo => {
-        tablaHtml += `<tr><td>${motivo}</td>`;
+    grupos.forEach(grupo => {
+        tablaHtml += `<tr><td>${grupo}</td>`;
         
-        grupos.forEach(grupo => {
+        motivos.forEach(motivo => {
             const datos = lstConsultaNoInteresado.filter(item => item.desMotivo === motivo && item.descGrupo === grupo);
             
             if (datos.length > 0) {
@@ -57,3 +57,6 @@ const lstConsultaNoInteresado = [
         "casos": "15",
         "monto": "4939716",
         "idOrden": "1"
+    },
+    {
+        "idMotivo":
