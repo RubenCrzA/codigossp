@@ -1,159 +1,138 @@
-function listaCampanias2Credito(idTipoCamp, idCamp, cveGrupo, cveSubGrupo, propension, idNivelAgrupado) {
-    // Obtener valores de filtros
-    let idRegion = $("#regionAcciones2Credito").val() == "-1" ? "0" : $("#regionAcciones2Credito").val();
-    let idZona = $("#zonaAcciones2Credito").val() == "-1" ? "0" : $("#zonaAcciones2Credito").val();
-    let tipoCantidad2 = $("#tipoCantidad2Credito").val() == "-1" ? "0" : $("#tipoCantidad2Credito").val();
-    let idBuc = $("#bucAcciones2Credito").val() == "" ? "0" : $("#bucAcciones2Credito").val();
-    let idMudo = $("input[name=onoffswitch42Credito]:checked").val() == "on" ? "1" : "0";
-    let iniciativa2 = $("#iniciativa2Credito").val() == "-1" ? "" : $("#iniciativa2Credito").val();
-    let tipoCampPre = $("#idTipoCampPre2Credito").val() == "-1" ? "0" : $("#idTipoCampPre2Credito").val();
-    let estatusCamp2 = $("#estatusCamp2Credito").val() == "-1" ? "3" : $("#estatusCamp2Credito").val();
-    let estatusGestion2 = $("#estatusGestion2Credito").val() == "-1" ? "0" : $("#estatusGestion2Credito").val();
 
-    // Nuevos Filtros
-    let propensionCredito = $("#propensionCredito").val() == "-1" ? "0" : $("#propensionCredito").val();
-    let campaniaCredito = $("#campaniaCredito").val() == "-1" ? "0" : $("#campaniaCredito").val();
-    let idStatusCredito = $("#idEstatusCredito").val() == "-1" ? "0" : $("#idEstatusCredito").val();
-
-    let acciones = { desEjecutivo: SelectTotalEjecutivos2Credito };
-
-    $.ajax({
-        type: "POST",
-        async: true,
-        dataType: "json",
-        contentType: 'application/json',
-        data: JSON.stringify(acciones),
-        url: "main/accionesTableau/getListCampaniaAgrupado.json?segmento=" + SelectTotalSegmento2Credito +
-            "&idRegion=" + idRegion +
-            "&idZona=" + idZona +
-            "&sucursal=" + SelectTotalSucursal2Credito +
-            "&idTipoCamp=" + idTipoCamp +
-            "&idTipoCantidad=" + tipoCantidad2 +
-            "&idCamp=" + idCamp +
-            "&idBuc=" + idBuc +
-            "&idMudo=" + idMudo +
-            "&iniciativaComercial=" + iniciativa2 +
-            "&idTipoCampPre=" + tipoCampPre +
-            "&estatusCamp=" + estatusCamp2 +
-            "&estatusGestion=" + estatusGestion2 +
-            "&cveGrupo=" + cveGrupo +
-            "&cveSubGrupo=" + cveSubGrupo +
-            "&propensionCredito=" + propensionCredito +
-            "&campaniaCredito=" + campaniaCredito +
-            "&idStatusCredito=" + idStatusCredito +
-            "&idNivelAgrupado=" + idNivelAgrupado,
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader(header, token);
+    "lstConsultaNoInteresado": [
+        {
+            "idMotivo": null,
+            "desMotivo": "La tasa no le es atractiva",
+            "idGrupo": "1",
+            "descGrupo": "Stock 1-2 (Clientes 1 a 2 campañas)",
+            "casos": "15",
+            "monto": "4939716",
+            "idOrden": "1"
         },
-        success: function(lstCampanias) {
-            let tabla = '<table class="table table-striped table-condensed table-hover">';
-            tabla += '<thead>';
-            tabla += '<tr>';
-            tabla += '<th>Grupo</th><th>N&uacute;m Ctes</th><th>Monto Ofertado</th>';
-            tabla += '<th colspan="2">Gestionado</th><th>No Interesado</th><th>No contactable</th>';
-            tabla += '<th>Citas</th><th>Pipeline</th><th>Cierre Cantado</th><th colspan="2">Cierre Real</th>';
-            tabla += '<th>Gesti&oacute;n Gte Trx</th><th>Gesti&oacute;n Agro</th><th>Gesti&oacute;n GetNet</th><th>Gesti&oacute;n Rof</th>';
-            tabla += '</tr></thead><tbody id="tablaCampTbody2Credito">';
-
-            if (lstCampanias.length > 0) {
-                $(lstCampanias).each(function(i, item) {
-                    let color = item.color == "Rojo" ? "red" : "#20c820";
-                    tabla += '<tr data-id="' + item.idEjecutivo + '">';
-                    tabla += '<td>' + item.desEjecutivo + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.numClientes + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.montoOfertado + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.gestionado + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.pctGestionado + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.noInteresado + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.noContactable + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.agenda + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.pipeline + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.cierreCantado + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.cierreReal + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.pctCierreReal + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.gestionGteTx + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.gestionAgro + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.gestionGetnet + '</td>';
-                    tabla += '<td style="color: ' + color + '">' + item.gestionRof + '</td>';
-                    tabla += '</tr>';
-                });
-            } else {
-                tabla += '<tr class="text-center"><td colspan="16">No existe informaci&oacute;n para mostrar</td></tr>';
-            }
-
-            tabla += '</tbody></table>';
-            $("#tablaCamp2Credito").html(tabla);
+        {
+            "idMotivo": null,
+            "desMotivo": "La tasa no le es atractiva",
+            "idGrupo": "2",
+            "descGrupo": "Stock 3 (Clientes 3 campañas)",
+            "casos": "4",
+            "monto": "3515075",
+            "idOrden": "1"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "La tasa no le es atractiva",
+            "idGrupo": "3",
+            "descGrupo": "Monto > $500,000 (Monto mayor a $500,000)",
+            "casos": "1",
+            "monto": "603986",
+            "idOrden": "1"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "El monto es insuficiente",
+            "idGrupo": "1",
+            "descGrupo": "Stock 1-2 (Clientes 1 a 2 campañas)",
+            "casos": "16",
+            "monto": "16124346",
+            "idOrden": "2"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "El monto es insuficiente",
+            "idGrupo": "2",
+            "descGrupo": "Stock 3 (Clientes 3 campañas)",
+            "casos": "2",
+            "monto": "2319000",
+            "idOrden": "2"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "El monto es insuficiente",
+            "idGrupo": "3",
+            "descGrupo": "Monto > $500,000 (Monto mayor a $500,000)",
+            "casos": "1",
+            "monto": "794000",
+            "idOrden": "2"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "El producto ofertado no le interesa",
+            "idGrupo": "1",
+            "descGrupo": "Stock 1-2 (Clientes 1 a 2 campañas)",
+            "casos": "14",
+            "monto": "16099027",
+            "idOrden": "3"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "El producto ofertado no le interesa",
+            "idGrupo": "2",
+            "descGrupo": "Stock 3 (Clientes 3 campañas)",
+            "casos": "3",
+            "monto": "2568000",
+            "idOrden": "3"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "El producto ofertado no le interesa",
+            "idGrupo": "4",
+            "descGrupo": "TPV (con tpv)",
+            "casos": "1",
+            "monto": "794000",
+            "idOrden": "3"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "Porque tiene liquidez",
+            "idGrupo": "1",
+            "descGrupo": "Stock 1-2 (Clientes 1 a 2 campañas)",
+            "casos": "12",
+            "monto": "9203089",
+            "idOrden": "4"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "Porque tiene liquidez",
+            "idGrupo": "2",
+            "descGrupo": "Stock 3 (Clientes 3 campañas)",
+            "casos": "3",
+            "monto": "8777000",
+            "idOrden": "4"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "Porque trabaja con otro banco",
+            "idGrupo": "1",
+            "descGrupo": "Stock 1-2 (Clientes 1 a 2 campañas)",
+            "casos": "13",
+            "monto": "23204042",
+            "idOrden": "5"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "Porque trabaja con otro banco",
+            "idGrupo": "2",
+            "descGrupo": "Stock 3 (Clientes 3 campañas)",
+            "casos": "2",
+            "monto": "2222000",
+            "idOrden": "5"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "Otros",
+            "idGrupo": "1",
+            "descGrupo": "Stock 1-2 (Clientes 1 a 2 campañas)",
+            "casos": "16",
+            "monto": "7903081",
+            "idOrden": "6"
+        },
+        {
+            "idMotivo": null,
+            "desMotivo": "Otros",
+            "idGrupo": "2",
+            "descGrupo": "Stock 3 (Clientes 3 campañas)",
+            "casos": "2",
+            "monto": "1585582",
+            "idOrden": "6"
         }
-    });
-}
-
-function cargarSubtabla(idEjecutivo) {
-    // Realizar la llamada AJAX para obtener los datos de la subtabla
-    $.ajax({
-        type: "POST",
-        url: "ruta/a/tu/api",  // Reemplaza esto con la URL real de tu API
-        data: JSON.stringify({ idEjecutivo: idEjecutivo }),
-        contentType: 'application/json',
-        success: function(response) {
-            // Crear la subtabla con los datos recibidos
-            let tabla = '<tr class="subtabla" id="subtabla-' + idEjecutivo + '">';
-            tabla += '<td colspan="16">';  // Ajusta el colspan según el número de columnas
-            tabla += '<table class="table table-striped">';
-            tabla += '<thead><tr><th>Subgrupo</th><th>Detalles</th></tr></thead><tbody>';
-
-            // Suponiendo que response sea un array de objetos con los datos de la subtabla
-            response.forEach(function(item) {
-                tabla += '<tr>';
-                tabla += '<td>' + item.subgrupo + '</td>';
-                tabla += '<td>' + item.detalles + '</td>';
-                tabla += '</tr>';
-            });
-
-            tabla += '</tbody></table></td></tr>';
-
-            // Insertar la subtabla después de la fila del ejecutivo
-            $("tr[data-id='" + idEjecutivo + "']").after(tabla);
-        }
-    });
-}
-
-// Manejar el clic en las filas
-$(document).on('click', 'tr[data-id]', function() {
-    let idEjecutivo = $(this).data('id');
-
-    // Alternar la visibilidad de la subtabla
-    let subtabla = $("#subtabla-" + idEjecutivo);
-    if (subtabla.length) {
-        // Si la subtabla ya existe, mostrarla/ocultarla
-        if (subtabla.is(':visible')) {
-            subtabla.hide();
-        } else {
-            $('.subtabla').hide();  // Ocultar todas las subtablas
-            subtabla.show();  // Mostrar la subtabla correspondiente
-        }
-    } else {
-        // Si la subtabla no existe, cargar datos y mostrarla
-        cargarSubtabla(idEjecutivo);
-    }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<table id="tablaCamp2Credito">
-    <tbody id="tablaCampTbody2Credito">
-        <!-- Filas de la tabla principal se generarán dinámicamente -->
-    </tbody>
-</table>
-
+    ]
