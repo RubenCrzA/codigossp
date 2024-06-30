@@ -1,125 +1,157 @@
-var tabla = '<table class="table table-striped table-condensed table-hover">';
-    tabla += '<thead>';
-    tabla += '<tr>';
-    tabla += '<th class="estiloTabla">Grupo</th>';
-    tabla += '<th class="estiloTabla">N&uacute;m Ctes</th>';
-    tabla += '<th class="estiloTabla">Monto Ofertado</th>';
-    tabla += '<th class="estiloTabla" colspan="2" style="color: red;text-decoration: underline;">Gestionado</th>';
-    tabla += '<th class="estiloTabla">No <br> Interesado</th>';
-    tabla += '<th class="estiloTabla">No <br> contactable</th>';
-    tabla += '<th class="estiloTabla">Citas</th>';
-    tabla += '<th class="estiloTabla">Pipeline</th>';
-    tabla += '<th class="estiloTabla">Cierre <br> Cantado</th>';
-    tabla += '<th class="estiloTabla" colspan="2" style="text-decoration: underline;">Cierre Real</th>';
-    tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Gte Trx</th>';
-    tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Agro</th>';
-    tabla += '<th class="estiloTabla">Gesti&oacute;n <br> GetNet</th>';
-    tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Rof</th>';
-    tabla += '</tr>';
-    tabla += '</thead>';
-    tabla += '<tbody id="tablaCampTbody2Credito">';
-    if (lstCampanias.length > 0) {
-        $(lstCampanias).each(function(i, item) {
-            var color = item.color == "Rojo" ? "red" : "#20c820";
-            if (item.desEjecutivo == "Totales") {
-                tabla += '<tr>';
-                tabla += '<th style="font-size: small;">' + item.desEjecutivo + '</th>';
-            } else {
-                tabla += '<tr id="' + item.idCampania + '" class="clickable-row" data-id="' + item.idCampania + '" style="cursor: pointer;">';
-                tabla += '<th style="font-size: small;">' + item.desEjecutivo + '</th>';
-            }
-            tabla += '<th class="estiloTabla" color="' + color + '" style="color: ' + color + '">' + item.numClientes + '</th>';
-            tabla += '<td class="estiloTabla" style="color: ' + color + '">' + item.montoOfertado + '</td>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionado + '</th>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.pctGestionado + '</th>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.noInteresado + '</th>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.noContactable + '</th>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.agenda + '</th>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.pipeline + '</th>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.cierreCantado + '</th>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.cierreReal + '</th>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.pctCierreReal + '</th>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionGteTx + '</th>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionAgro + '</th>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionGetnet + '</th>';
-            tabla += '<th class="estiloTabla" style="color: ' + color + '">' + item.gestionRof + '</th>';
-            tabla += '</tr>';
-            
-            // Agregar fila de sub-tabla (hija) oculta por defecto
-            tabla += '<tr class="child-row" id="child-' + item.idCampania + '" style="display: none;">';
-            tabla += '<td colspan="15">';
-            tabla += '<table class="table table-striped table-condensed table-hover">';
-            tabla += '<thead>';
-            tabla += '<tr>';
-            tabla += '<th class="estiloTabla">Subgrupo</th>';
-            tabla += '<th class="estiloTabla">N&uacute;m Ctes</th>';
-            tabla += '<th class="estiloTabla">Monto Ofertado</th>';
-            tabla += '<th class="estiloTabla" colspan="2" style="color: red;text-decoration: underline;">Gestionado</th>';
-            tabla += '<th class="estiloTabla">No <br> Interesado</th>';
-            tabla += '<th class="estiloTabla">No <br> contactable</th>';
-            tabla += '<th class="estiloTabla">Citas</th>';
-            tabla += '<th class="estiloTabla">Pipeline</th>';
-            tabla += '<th class="estiloTabla">Cierre <br> Cantado</th>';
-            tabla += '<th class="estiloTabla" colspan="2" style="text-decoration: underline;">Cierre Real</th>';
-            tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Gte Trx</th>';
-            tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Agro</th>';
-            tabla += '<th class="estiloTabla">Gesti&oacute;n <br> GetNet</th>';
-            tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Rof</th>';
-            tabla += '</tr>';
-            tabla += '</thead>';
-            tabla += '<tbody>';
-            // Aquí puedes añadir los datos de la sub-tabla
-            // Ejemplo de datos de sub-tabla
-            tabla += '<tr>';
-            tabla += '<td class="estiloTabla">Subgrupo Ejemplo</td>';
-            tabla += '<td class="estiloTabla">10</td>';
-            tabla += '<td class="estiloTabla">$5000</td>';
-            tabla += '<td class="estiloTabla" colspan="2">50%</td>';
-            tabla += '<td class="estiloTabla">0</td>';
-            tabla += '<td class="estiloTabla">1</td>';
-            tabla += '<td class="estiloTabla">5</td>';
-            tabla += '<td class="estiloTabla">200</td>';
-            tabla += '<td class="estiloTabla">$1000</td>';
-            tabla += '<td class="estiloTabla" colspan="2">$800</td>';
-            tabla += '<td class="estiloTabla">10%</td>';
-            tabla += '<td class="estiloTabla">5%</td>';
-            tabla += '<td class="estiloTabla">8%</td>';
-            tabla += '<td class="estiloTabla">2%</td>';
-            tabla += '</tr>';
-            tabla += '</tbody>';
-            tabla += '</table>';
-            tabla += '</td>';
-            tabla += '</tr>';
-        });
-    } else {
-        tabla += '<tr class="text-center">';
-        tabla += '<td colspan="15">No existe informaci&oacute;n para mostrar</td>';
+$(document).ready(function() {
+    var lstCampanias = [
+        {idCampania: '1', desEjecutivo: 'Grupo 1', color: 'Rojo', numClientes: 10, montoOfertado: 1000, gestionado: 5, pctGestionado: '50%', noInteresado: 2, noContactable: 1, agenda: 2, pipeline: 3, cierreCantado: 4, cierreReal: 2, pctCierreReal: '20%', gestionGteTx: 1, gestionAgro: 1, gestionGetnet: 1, gestionRof: 1},
+        {idCampania: '2', desEjecutivo: 'Grupo 2', color: 'Verde', numClientes: 15, montoOfertado: 1500, gestionado: 10, pctGestionado: '66%', noInteresado: 3, noContactable: 2, agenda: 3, pipeline: 4, cierreCantado: 5, cierreReal: 3, pctCierreReal: '30%', gestionGteTx: 2, gestionAgro: 2, gestionGetnet: 2, gestionRof: 2}
+    ];
+
+    var subTablaData = [
+        {idCampania: '1', desEjecutivo: 'Subgrupo 1.1', color: 'Rojo', numClientes: 5, montoOfertado: 500, gestionado: 2, pctGestionado: '40%', noInteresado: 1, noContactable: 1, agenda: 1, pipeline: 1, cierreCantado: 2, cierreReal: 1, pctCierreReal: '10%', gestionGteTx: 1, gestionAgro: 1, gestionGetnet: 1, gestionRof: 1},
+        {idCampania: '2', desEjecutivo: 'Subgrupo 2.1', color: 'Verde', numClientes: 7, montoOfertado: 700, gestionado: 4, pctGestionado: '57%', noInteresado: 1, noContactable: 1, agenda: 2, pipeline: 2, cierreCantado: 3, cierreReal: 2, pctCierreReal: '20%', gestionGteTx: 1, gestionAgro: 1, gestionGetnet: 1, gestionRof: 1}
+    ];
+
+    var subSubTablaData = [
+        {idSubgrupo: '1', desEjecutivo: 'Subsubgrupo 1.1.1', color: 'Rojo', numClientes: 3, montoOfertado: 300, gestionado: 1, pctGestionado: '33%', noInteresado: 0, noContactable: 1, agenda: 0, pipeline: 1, cierreCantado: 1, cierreReal: 0, pctCierreReal: '0%', gestionGteTx: 1, gestionAgro: 0, gestionGetnet: 1, gestionRof: 1},
+        {idSubgrupo: '2', desEjecutivo: 'Subsubgrupo 2.1.1', color: 'Verde', numClientes: 4, montoOfertado: 400, gestionado: 2, pctGestionado: '50%', noInteresado: 1, noContactable: 1, agenda: 1, pipeline: 1, cierreCantado: 2, cierreReal: 1, pctCierreReal: '25%', gestionGteTx: 1, gestionAgro: 1, gestionGetnet: 1, gestionRof: 1}
+    ];
+
+    function crearTabla(lstCampanias) {
+        var tabla = '<table class="table table-striped table-condensed table-hover">';
+        tabla += '<thead>';
+        tabla += '<tr>';
+        tabla += '<th class="estiloTabla">Grupo</th>';
+        tabla += '<th class="estiloTabla">N&uacute;m Ctes</th>';
+        tabla += '<th class="estiloTabla">Monto Ofertado</th>';
+        tabla += '<th class="estiloTabla" colspan="2" style="color: red;text-decoration: underline;">Gestionado</th>';
+        tabla += '<th class="estiloTabla">No <br> Interesado</th>';
+        tabla += '<th class="estiloTabla">No <br> contactable</th>';
+        tabla += '<th class="estiloTabla">Citas</th>';
+        tabla += '<th class="estiloTabla">Pipeline</th>';
+        tabla += '<th class="estiloTabla">Cierre <br> Cantado</th>';
+        tabla += '<th class="estiloTabla" colspan="2" style="text-decoration: underline;">Cierre Real</th>';
+        tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Gte Trx</th>';
+        tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Agro</th>';
+        tabla += '<th class="estiloTabla">Gesti&oacute;n <br> GetNet</th>';
+        tabla += '<th class="estiloTabla">Gesti&oacute;n <br> Rof</th>';
         tabla += '</tr>';
-    }
-    tabla += '</tbody>';
-    tabla += '</table>';
-    $("#tablaCamp2Credito").html(tabla);
+        tabla += '</thead>';
+        tabla += '<tbody id="tablaCampTbody2Credito">';
 
-
-
-
-
-
-
-
-  // Manejar el clic en una fila para expandir/contraer la sub-tabla
-    $('.clickable-row').on('click', function() {
-        var id = $(this).data('id');
-        var $childRow = $('#child-' + id);
-        if ($childRow.is(':visible')) {
-            $childRow.hide();
+        if (lstCampanias.length > 0) {
+            $(lstCampanias).each(function(i, item) {
+                var color = item.color == "Rojo" ? "red" : "#20c820";
+                tabla += '<tr id="'+item.idCampania+'" class="filaPrincipal" style="cursor: pointer;">';
+                tabla += '<th style="font-size: small;">'+item.desEjecutivo+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.numClientes+'</th>';
+                tabla += '<td class="estiloTabla" style="color: '+color+'">'+item.montoOfertado+'</td>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.gestionado+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.pctGestionado+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.noInteresado+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.noContactable+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.agenda+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.pipeline+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.cierreCantado+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.cierreReal+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.pctCierreReal+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.gestionGteTx+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.gestionAgro+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.gestionGetnet+'</th>';
+                tabla += '<th class="estiloTabla" style="color: '+color+'">'+item.gestionRof+'</th>';
+                tabla += '</tr>';
+            });
         } else {
-            $('.child-row').hide();
-            $childRow.show();
+            tabla += '<tr class="text-center">';
+            tabla += '<td colspan="15">No existe informaci&oacute;n para mostrar</td>';
+            tabla += '</tr>';
         }
+
+        tabla += '</tbody>';
+        tabla += '</table>';
+        $("#tablaCamp2Credito").html(tabla);
+    }
+
+    function cargarSubTabla(parentId) {
+        var subFilas = subTablaData.filter(function(item) {
+      
+
+      return item.idCampania === parentId
+
+2/2
+continua
+ChatGPT
+
+javascript
+
+        });
+
+        var subTabla = '';
+        $(subFilas).each(function(j, subitem) {
+            var color = subitem.color == "Rojo" ? "red" : "#20c820";
+            subTabla += '<tr id="subfila-'+subitem.idCampania+'-'+j+'" class="subfila" data-parent-id="'+parentId+'" style="cursor: pointer;">';
+            subTabla += '<td style="padding-left: 20px;">'+subitem.desEjecutivo+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.numClientes+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.montoOfertado+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.gestionado+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.pctGestionado+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.noInteresado+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.noContactable+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.agenda+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.pipeline+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.cierreCantado+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.cierreReal+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.pctCierreReal+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.gestionGteTx+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.gestionAgro+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.gestionGetnet+'</td>';
+            subTabla += '<td class="estiloTabla" style="color: '+color+'">'+subitem.gestionRof+'</td>';
+            subTabla += '</tr>';
+        });
+
+        $('#tablaCampTbody2Credito').append(subTabla);
+    }
+
+    function cargarSubSubTabla(parentId) {
+        var subSubFilas = subSubTablaData.filter(function(item) {
+            return item.idSubgrupo === parentId;
+        });
+
+        var subSubTabla = '';
+        $(subSubFilas).each(function(k, subsubitem) {
+            var color = subsubitem.color == "Rojo" ? "red" : "#20c820";
+            subSubTabla += '<tr class="subfila-nivel2" data-parent-id="subfila-'+parentId+'" style="padding-left: 40px;">';
+            subSubTabla += '<td>'+subsubitem.desEjecutivo+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.numClientes+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.montoOfertado+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.gestionado+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.pctGestionado+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.noInteresado+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.noContactable+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.agenda+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.pipeline+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.cierreCantado+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.cierreReal+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.pctCierreReal+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.gestionGteTx+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.gestionAgro+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.gestionGetnet+'</td>';
+            subSubTabla += '<td class="estiloTabla" style="color: '+color+'">'+subsubitem.gestionRof+'</td>';
+            subSubTabla += '</tr>';
+        });
+
+        $('#tablaCampTbody2Credito').append(subSubTabla);
+    }
+
+    crearTabla(lstCampanias);
+
+    $(document).on('click', '.filaPrincipal', function() {
+        var parentId = $(this).attr('id');
+        $('tr[data-parent-id]').hide(); // Oculta todas las subfilas y subsubfilas
+        $('tr[data-parent-id="'+parentId+'"]').remove(); // Elimina las subfilas cargadas anteriormente
+        cargarSubTabla(parentId);
     });
 
-    if(idCampGlobal2 != "0"){
-        idCampaniaSeleccionTabla2(idCampGlobal2);
-    }
-});
+    $(document).on('click', '.subfila', function() {
+        var parentId = $(this).attr('id');
+        $('tr[data-parent-id^="subfila-"]').hide(); // Oculta todas las subsubfilas
+        $('tr[data-parent-id="'+parentId+'"]').remove(); // Elimina las subsubfilas cargadas anteriormente
+        cargarSubSubTabla(parentId);
+    });
