@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrada con Separación de Miles</title>
+    <style>
+        input {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="numberInput" placeholder="13,000,000" maxlength="10" />
+
+    <script>
+        const input = document.getElementById('numberInput');
+
+        input.addEventListener('input', function () {
+            let value = input.value.replace(/,/g, '');
+
+            // Limita el valor a 13 millones
+            if (Number(value) > 13000000) {
+                value = '13000000';
+            }
+
+            // Formatear con separación de miles
+            const formattedValue = new Intl.NumberFormat('en-US').format(value);
+
+            input.value = formattedValue;
+        });
+
+        // Evitar entrada de caracteres no numéricos
+        input.addEventListener('keydown', function (event) {
+            if (event.key !== 'Backspace' && event.key !== 'Delete' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+                if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
