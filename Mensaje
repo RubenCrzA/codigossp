@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .input-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .input-container input {
+            text-align: right;
+            padding-right: 25px;
+            box-sizing: border-box;
+        }
+        
+        .input-container .percentage-sign {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+    </style>
+    <title>Campo de texto con %</title>
+</head>
+<body>
+
+<div class="input-container">
+    <input type="text" id="percentageInput" oninput="formatInput(this)">
+    <span class="percentage-sign">%</span>
+</div>
+
+<script>
+    function formatInput(input) {
+        let value = input.value.replace(/[^0-9]/g, ''); // Elimina todo menos dígitos
+        if (value) {
+            value = (parseInt(value) / 100).toFixed(2); // Divide por 100 y limita a 2 decimales
+        }
+        input.value = value;
+    }
+</script>
+
+</body>
+</html>
