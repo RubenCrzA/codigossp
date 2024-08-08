@@ -11,33 +11,31 @@
     </style>
 </head>
 <body>
-    <input type="text" id="numberInput" placeholder="13,000,000" maxlength="10" />
+    <input type="text" id="numberInput" placeholder="13,000,000" maxlength="10" 
+           oninput="formatInput(this, 13000000)" onkeydown="restrictInput(event)" />
 
     <script>
-        const input = document.getElementById('numberInput');
+        function formatInput(inputElement, maxLimit) {
+            let value = inputElement.value.replace(/,/g, '');
 
-        input.addEventListener('input', function () {
-            let value = input.value.replace(/,/g, '');
-
-            // Limita el valor a 13 millones
-            if (Number(value) > 13000000) {
-                value = '13000000';
+            // Limita el valor al máximo especificado
+            if (Number(value) > maxLimit) {
+                value = maxLimit.toString();
             }
 
             // Formatear con separación de miles
             const formattedValue = new Intl.NumberFormat('en-US').format(value);
 
-            input.value = formattedValue;
-        });
+            inputElement.value = formattedValue;
+        }
 
-        // Evitar entrada de caracteres no numéricos
-        input.addEventListener('keydown', function (event) {
+        function restrictInput(event) {
             if (event.key !== 'Backspace' && event.key !== 'Delete' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
                 if (!/[0-9]/.test(event.key)) {
                     event.preventDefault();
                 }
             }
-        });
+        }
     </script>
 </body>
 </html>
