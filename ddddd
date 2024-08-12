@@ -1,1 +1,5 @@
  onKeyDown="if(this.value.length==11 && (event.keyCode!=8) ) return false;"
+
+
+
+onkeydown="if (this.value.length >= 11 && event.keyCode != 8 && event.keyCode != 46) return false;"
