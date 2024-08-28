@@ -1,0 +1,1049 @@
+/**
+ * 
+ */
+package santander.mx.neopyme.cones.tableau;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Properties;
+import java.util.Scanner;
+
+import javax.activation.DataHandler;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Drawing;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Picture;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
+import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.ui.Model;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
+
+import santander.mx.data.model.dto.ConesRiesgoDTO;
+import santander.mx.data.model.dto.PlanNegocioDTO;
+import santander.mx.data.util.Mensajeria;
+import santander.mx.data.util.Utilerias;
+import santander.mx.neopyme.general.modelo.ResultadoDTO;
+
+/**
+ * @author Z420837
+ * 
+ */
+public class ConesTableauPDF {
+	
+	public static int POSICION_TITULOS_TABLA = 9;
+	public static  int POSICION_INICIO_FILAS_TABLA = 10;
+	
+	
+	public void crearPDF(Model model, String file, String buc,List<PlanNegocioDTO> planNegocioBuc, 
+			List<PlanNegocioDTO> planNegocio, List<PlanNegocioDTO> credito,
+			String check, String folio, String rfc, String nombre, 
+			String oficial, String puesto) throws IOException{
+		
+			String tipoOperacion = ""; String tipoCredito = ""; String creditoUno = ""; String tasa = ""; String tasaMonto = "";  
+			String comision = ""; String creditoComision = ""; String tipoOperacionDos = ""; String tipoCreditoDos = "";  
+			String creditoDos = ""; String tasaDos = ""; String tasaMontoDos = ""; String comisionDos = ""; String creditoComisionDos = "";
+			String tipoOperacionTres = ""; String tipoCreditoTres = ""; String creditoTres = ""; String tasaTres = "";  
+			String tasaMontoTres = ""; String comisionTres = ""; String creditoComisionTres = "";String representante = ""; 
+			String ventasAnuales = "";String agroTres = "";String fechaElaboracion = "";
+			String comex = ""; String agro = ""; String comexDos = ""; String agroDos = ""; String comexTres = ""; 
+			String garantia = "";String garantiaDos = "";String garantiaTres = "";String Observaciones = "";
+			
+			
+			String checkCreditoDos = "0"; 
+			String checkCreditoTres = "0";
+			String pyme = "0"; 
+		
+		
+			String respuestaTipoOperacion = "";
+			String respuestaTipoOperacionDos = "";
+			String respuestaTipoOperacionTres = "";
+			String respuestaTipoCredito = "";
+			String respuestaTipoCreditoDos = "";
+			String respuestaTipoCreditoTres = "";
+			String respuestaTasa = "";
+			String respuestaTasaDos = "";
+			String respuestaTasaTres = "";
+			String respuestacomision = "";
+			String respuestacomisionDos = "";
+			String respuestacomisionTres = "";
+			String respuestaGarantia = "";
+			String respuestaGarantiaDos = "";
+			String respuestaGarantiaTres = "";
+			
+			if(planNegocioBuc.get(0).getSegmentoPyme().equals("1")){
+				pyme="1";
+			} else if(planNegocioBuc.get(0).getSegmentoPyme().equals("2")){
+				pyme="2";
+			}
+			
+			if(credito.size() == 2){
+				checkCreditoDos = "1";
+			}
+			
+			if(credito.size() == 3){
+				checkCreditoTres = "1";
+			}
+			
+			if(planNegocioBuc.size()==1){
+				fechaElaboracion = planNegocioBuc.get(0).getFechaElaboracion();
+				representante = planNegocioBuc.get(0).getRepresentante(); 
+				ventasAnuales = planNegocioBuc.get(0).getVentasAnuales();
+				Observaciones = planNegocioBuc.get(0).getObservacionesEjecutivo();
+			}
+			
+			if(credito.size()==1){
+				tipoOperacion = credito.get(0).getTipoOperacion();  
+				tipoCredito = credito.get(0).getIdTipoCredito();
+				creditoUno = credito.get(0).getMonto();  
+				tasa = credito.get(0).getIdTasa(); 
+				tasaMonto = credito.get(0).getMontoTasa();  
+				comision = credito.get(0).getIdComision();
+				creditoComision = credito.get(0).getMontoComision(); 
+				comex = credito.get(0).getComex();
+				agro = credito.get(0).getAgro();
+				garantia = credito.get(0).getTipoGarantia();
+			}
+			
+			if(credito.size()==2){
+				
+				tipoOperacion = credito.get(1).getTipoOperacion();  
+				tipoCredito = credito.get(1).getIdTipoCredito();
+				creditoUno = credito.get(1).getMonto();  
+				tasa = credito.get(1).getIdTasa(); 
+				tasaMonto = credito.get(1).getMontoTasa();  
+				comision = credito.get(1).getIdComision();
+				creditoComision = credito.get(1).getMontoComision(); 
+				comex = credito.get(1).getComex();
+				agro = credito.get(1).getAgro();
+				garantia = credito.get(1).getTipoGarantia();
+				
+				tipoOperacionDos = credito.get(0).getTipoOperacion();  
+				tipoCreditoDos = credito.get(0).getIdTipoCredito();
+				creditoDos = credito.get(0).getMonto();  
+				tasaDos = credito.get(0).getIdTasa(); 
+				tasaMontoDos = credito.get(0).getMontoTasa();  
+				comisionDos = credito.get(0).getIdComision();
+				creditoComisionDos = credito.get(0).getMontoComision();
+				comexDos = credito.get(0).getComex();
+				agroDos = credito.get(0).getAgro();
+				garantiaDos = credito.get(0).getTipoGarantia();
+			}
+			
+			if(credito.size()==3){
+				
+				tipoOperacion = credito.get(2).getTipoOperacion();  
+				tipoCredito = credito.get(2).getIdTipoCredito();
+				creditoUno = credito.get(2).getMonto();  
+				tasa = credito.get(2).getIdTasa(); 
+				tasaMonto = credito.get(2).getMontoTasa();  
+				comision = credito.get(2).getIdComision();
+				creditoComision = credito.get(2).getMontoComision(); 
+				comex = credito.get(2).getComex();
+				agro = credito.get(2).getAgro();
+				garantia = credito.get(2).getTipoGarantia();
+				
+				tipoOperacionDos = credito.get(1).getTipoOperacion();  
+				tipoCreditoDos = credito.get(1).getIdTipoCredito();
+				creditoDos = credito.get(1).getMonto();  
+				tasaDos = credito.get(1).getIdTasa(); 
+				tasaMontoDos = credito.get(1).getMontoTasa();  
+				comisionDos = credito.get(1).getIdComision();
+				creditoComisionDos = credito.get(1).getMontoComision();
+				comexDos = credito.get(1).getComex();
+				agroDos = credito.get(1).getAgro();
+				garantia = credito.get(1).getTipoGarantia();
+				
+				tipoOperacionTres = credito.get(0).getTipoOperacion();  
+				tipoCreditoTres = credito.get(0).getIdTipoCredito();
+				creditoTres = credito.get(0).getMonto();  
+				tasaTres = credito.get(0).getIdTasa(); 
+				tasaMontoTres = credito.get(0).getMontoTasa();  
+				comisionTres = credito.get(0).getIdComision();
+				creditoComisionTres = credito.get(0).getMontoComision();
+				comexTres = credito.get(0).getComex();
+				agroTres = credito.get(0).getAgro();
+				garantia = credito.get(0).getTipoGarantia();
+			}
+			
+			switch (tipoOperacion) {
+			case "-1":respuestaTipoOperacion = "Seleccione";break;
+			case "1":respuestaTipoOperacion = "Nuevo";break;
+	        case "2":respuestaTipoOperacion = "Restitución";break;
+	        case "3":respuestaTipoOperacion = "Incremento";break;
+	        default:respuestaTipoOperacion = "Renovación";break; 
+			}
+			
+			switch (tipoOperacionDos) {
+			case "-1":respuestaTipoOperacionDos = "Seleccione";break;
+			case "1":respuestaTipoOperacionDos = "Nuevo";break;
+	        case "2":respuestaTipoOperacionDos = "Restitución";break;
+	        case "3":respuestaTipoOperacionDos = "Incremento";break;
+	        default:respuestaTipoOperacionDos = "Renovación";break; 
+			}
+			
+			switch (tipoOperacionTres) {
+			case "-1":respuestaTipoOperacionTres = "Seleccione";break;
+			case "1":respuestaTipoOperacionTres = "Nuevo";break;
+	        case "2":respuestaTipoOperacionTres = "Restitución";break;
+	        case "3":respuestaTipoOperacionTres = "Incremento";break;
+	        default:respuestaTipoOperacionTres = "Renovación";break; 
+			}
+			
+			switch (tipoCredito) {
+			case "-1":respuestaTipoCredito = "Seleccione";break;
+			case "1":respuestaTipoCredito = "Simple";break;
+	        case "2":respuestaTipoCredito = "Ágil";break;
+	        case "3":respuestaTipoCredito = "En Línea";break;
+	        case "4":respuestaTipoCredito = "Cuenta Corriente";break;
+	        case "5":respuestaTipoCredito = "Comex";break;
+	        case "6":respuestaTipoCredito = "Crédito Agro";break;
+	        default:respuestaTipoCredito = "Otros";break; 
+			}
+			
+			switch (tipoCreditoDos) {
+			case "-1":respuestaTipoCreditoDos = "Seleccione";break;
+			case "1":respuestaTipoCreditoDos = "Simple";break;
+	        case "2":respuestaTipoCreditoDos = "Ágil";break;
+	        case "3":respuestaTipoCreditoDos = "En Línea";break;
+	        case "4":respuestaTipoCreditoDos = "Cuenta Corriente";break;
+	        case "5":respuestaTipoCreditoDos = "Comex";break;
+	        case "6":respuestaTipoCreditoDos = "Crédito Agro";break;
+	        default:respuestaTipoCreditoDos = "Otros";break; 
+			}
+			
+			switch (tipoCreditoTres) {
+			case "-1":respuestaTipoCreditoTres = "Seleccione";break;
+			case "1":respuestaTipoCreditoTres = "Simple";break;
+			case "2":respuestaTipoCreditoTres = "Ágill";break;
+			case "3":respuestaTipoCreditoTres = "En Línea";break;
+			case "4":respuestaTipoCreditoTres = "Cuenta Corriente";break;
+			case "5":respuestaTipoCreditoTres = "Comex";break;
+			case "6":respuestaTipoCreditoTres = "Crédito Agro";break;
+			default:respuestaTipoCreditoTres = "Otros";break; 
+			}
+
+			switch (tasa) {
+			case "-1":respuestaTasa = "Seleccione";break;
+			case "1":respuestaTasa = "Fija";break;
+			case "3":respuestaTasa = "Libor";break;
+			default:respuestaTasa = "Variable";break; 
+			}
+			
+			switch (tasaDos) {
+			case "-1":respuestaTasaDos = "Seleccione";break;
+			case "1":respuestaTasaDos = "Fija";break;
+			case "3":respuestaTasaDos = "Libor";break;
+			default:respuestaTasaDos = "Variable";break;
+			}
+
+			switch (tasaTres) {
+			case "-1":respuestaTasaTres = "Seleccione";break;
+			case "1":respuestaTasaTres = "Fija";break;
+			case "3":respuestaTasaTres = "Libor";break;
+			default:respuestaTasaTres = "Variable";break;
+			}
+			
+			switch (comision) {
+			case "-1":respuestacomision = "Seleccione";break;
+			case "1":respuestacomision = "Seguro";break;
+			default:respuestacomision = "Apertura";break;
+			}
+			
+			switch (comisionDos) {
+			case "-1":respuestacomisionDos = "Seleccione";break;
+			case "1":respuestacomisionDos = "Seguro";break;
+			default:respuestacomisionDos = "Apertura";break;
+			}
+			
+			switch (comisionTres) {
+			case "-1":respuestacomisionTres = "Seleccione";break;
+			case "1":respuestacomisionTres = "Seguro";break;
+			default:respuestacomisionTres = "Apertura";break;
+			}
+			
+			switch (garantia) {
+			case "-1":respuestaGarantia = "Seleccione";break;
+			case "1":respuestaGarantia = "Obligado Solidario";break;
+			case "2":respuestaGarantia = "Hipotecario";break;
+			default:respuestaGarantia = "Prenda Bursatil";break;
+			}
+			
+			switch (garantiaDos) {
+			case "-1":respuestaGarantiaDos = "Seleccione";break;
+			case "1":respuestaGarantiaDos = "Obligado Solidario";break;
+			case "2":respuestaGarantiaDos = "Hipotecario";break;
+			default:respuestaGarantiaDos = "Prenda Bursatil";break;
+			}
+			
+			switch (garantiaTres) {
+			case "-1":respuestaGarantiaTres = "Seleccione";break;
+			case "1":respuestaGarantiaTres = "Obligado Solidario";break;
+			case "2":respuestaGarantiaTres = "Hipotecario";break;
+			default:respuestaGarantiaTres = "Prenda Bursatil";break;
+			}
+			
+			Document document = new Document();
+			 
+	        // Build PDF document.
+	        document.open();
+	        ByteArrayOutputStream  baos = new ByteArrayOutputStream(4096);
+		try {		
+ 			PdfReader reader = new PdfReader(file);
+			
+			PdfStamper stamper = new PdfStamper(reader, baos);
+			AcroFields form = stamper.getAcroFields();
+			
+			form.setField("folio", folio);
+			form.setField("razonSocial", planNegocio.get(0).getRazonSocial());
+			form.setField("buc", buc);
+			form.setField("rfc", rfc);
+			if(pyme.equals("1")){
+				 form.setField("segmento", "I");
+			} else if(pyme.equals("2")){
+				 form.setField("segmento", "II");
+			} 
+			    	
+			form.setField("sucursal", planNegocio.get(0).getIdSucursal() +"-"+ planNegocio.get(0).getDesSucursal());
+			form.setField("ventas", Utilerias.setFormatoMoneda(ventasAnuales));  
+			form.setField("representante", representante);
+			
+			    
+//		    CrÃ©dito 1
+		    String montoTasa = "";
+		    if(tasa.equals("1")){
+		    	montoTasa = tasaMonto+"%";
+		    } else if (tasa.equals("2")){
+		    	montoTasa = "TIIE+"+tasaMonto+"%";
+		    } else if (tasa.equals("3")){
+		    	montoTasa = "LIBOR+"+tasaMonto+"%";
+		    } 
+		    
+		    form.setField("operacion1", tipoOperacion.equals("-1")? "":respuestaTipoOperacion );
+		    form.setField("credito1", tipoCredito.equals("-1")? "":respuestaTipoCredito );
+		    form.setField("credValor1", Utilerias.setFormatoMoneda(creditoUno));
+		    form.setField("propuesta1", tasa.equals("-1")? "":respuestaTasa );
+		    form.setField("propValor1", montoTasa );
+		    form.setField("comision1", comision.equals("-1")?"":respuestacomision);
+		    form.setField("comValor1", creditoComision ==""?"":creditoComision+"%");
+		    form.setField("comValor1", creditoComision ==""?"":creditoComision+"%");
+		    form.setField("garantia1", garantia.equals("-1")? "":respuestaGarantia );
+		    
+//		    CrÃ©dito 2
+		    if(checkCreditoDos.equals("1")){
+			    if(tasaDos.equals("1")){
+			    	montoTasa = tasaMontoDos+"%";
+			    } else if (tasaDos.equals("2")){
+			    	montoTasa = "TIIE+"+tasaMontoDos+"%";
+			    } else if (tasaDos.equals("3")){
+			    	montoTasa = "LIBOR+"+tasaMontoDos+"%";
+			    } 
+			    form.setField("operacion2", tipoOperacionDos.equals("-1")? "":respuestaTipoOperacionDos );
+			    form.setField("credito2", tipoCreditoDos.equals("-1")? "":respuestaTipoCreditoDos );
+			    form.setField("credValor2", Utilerias.setFormatoMoneda(creditoDos));
+			    form.setField("propuesta2", tasaDos.equals("-1")? "":respuestaTasaDos );
+			    form.setField("propValor2", montoTasa);
+			    form.setField("comision2", comisionDos.equals("-1")?"":respuestacomisionDos);
+			    form.setField("comValor2", creditoComisionDos ==""?"":creditoComisionDos+"%");
+			    form.setField("garantia2", garantiaDos.equals("-1")? "":respuestaGarantiaDos );
+		    }
+		    
+//		    CrÃ©dito 3
+		    if(checkCreditoTres.equals("1")){
+			    if(tasaTres.equals("1")){
+			    	montoTasa = tasaMontoTres+"%";
+			    } else if (tasaTres.equals("2")){
+			    	montoTasa = "TIIE+"+tasaMontoTres+"%";
+			    } else if (tasaTres.equals("3")){
+			    	montoTasa = "LIBOR+"+tasaMontoTres+"%";
+			    } 
+			    form.setField("operacion3", tipoOperacionTres.equals("-1")? "":respuestaTipoOperacionTres );
+			    form.setField("credito3", tipoCreditoTres.equals("-1")? "":respuestaTipoCreditoTres );
+			    form.setField("credValor3", Utilerias.setFormatoMoneda(creditoTres));
+			    form.setField("propuesta3", tasaTres.equals("-1")? "":respuestaTasaTres );
+			    form.setField("propValor3", montoTasa);
+			    form.setField("comision3", comisionTres.equals("-1")?"":respuestacomisionTres);
+			    form.setField("comValor3", creditoComisionTres ==""?"":creditoComisionTres+"%");
+			    form.setField("garantia3", garantiaTres.equals("-1")? "":respuestaGarantiaTres);
+		    }
+			
+		    if(comex.equals("1")){
+		    	Image checkC = Image.getInstance(check);
+			    checkC.setAlignment(Image.ALIGN_RIGHT);
+			    checkC.setAbsolutePosition(340f, 618f);
+			    checkC.scalePercent(8, 8);
+			    
+			    PdfContentByte iconCheck = (PdfContentByte) stamper.getOverContent(1);
+		    	iconCheck.addImage(checkC);
+		    	iconCheck.stroke();
+		    }
+		    
+		    if(agro.equals("1")){
+		    	Image checkCs = Image.getInstance(check);
+			    checkCs.setAlignment(Image.ALIGN_RIGHT);
+			    checkCs.setAbsolutePosition(470f, 618f);
+			    checkCs.scalePercent(8, 8);
+			    
+			    PdfContentByte iconChecks = (PdfContentByte) stamper.getOverContent(1);
+		    	iconChecks.addImage(checkCs);
+		    	iconChecks.stroke();
+		    }
+		    
+		    if(comexDos.equals("1")){
+		    	Image checkE = Image.getInstance(check);
+			    checkE.setAlignment(Image.ALIGN_RIGHT);
+			    checkE.setAbsolutePosition(340f, 540f);
+			    checkE.scalePercent(8, 8);
+			    
+			    PdfContentByte iconCheckE = (PdfContentByte) stamper.getOverContent(1);
+		    	iconCheckE.addImage(checkE);
+		    	iconCheckE.stroke();
+		    }
+		    
+		    if(agroDos.equals("1")){
+		    	Image checkEs = Image.getInstance(check);
+			    checkEs.setAlignment(Image.ALIGN_RIGHT);
+			    checkEs.setAbsolutePosition(470f, 540f);
+			    checkEs.scalePercent(8, 8);
+			    
+			    PdfContentByte iconCheckEs = (PdfContentByte) stamper.getOverContent(1);
+		    	iconCheckEs.addImage(checkEs);
+		    	iconCheckEs.stroke();
+		    }
+		    
+		    if(comexTres.equals("1")){
+		    	Image checkD = Image.getInstance(check);
+			    checkD.setAlignment(Image.ALIGN_RIGHT);
+			    checkD.setAbsolutePosition(340f, 450f);
+			    checkD.scalePercent(8, 8);
+			    
+			    PdfContentByte iconCheckD = (PdfContentByte) stamper.getOverContent(1);
+		    	iconCheckD.addImage(checkD);
+		    	iconCheckD.stroke();
+		    }
+		    
+		    
+		    if(agroTres.equals("1")){
+		    	Image checkDs = Image.getInstance(check);
+			    checkDs.setAlignment(Image.ALIGN_RIGHT);
+			    checkDs.setAbsolutePosition(470f, 450f);
+			    checkDs.scalePercent(8, 8);
+			    
+			    PdfContentByte iconCheckDs = (PdfContentByte) stamper.getOverContent(1);
+		    	iconCheckDs.addImage(checkDs);
+		    	iconCheckDs.stroke();
+		    }
+		    
+		    form.setField("nombre", nombre);
+		    form.setField("zona", planNegocio.get(0).getIdZona() +"-"+ planNegocio.get(0).getZona());
+		    form.setField("puesto", puesto);
+		    form.setField("oficial", oficial);
+		    form.setField("comentarios", Observaciones);
+		    
+		    int cant = calculaSuma(fechaElaboracion.substring(0, 2) + fechaElaboracion.substring(3, 5), true, 0);
+		    form.setField("suma", cant+"");
+		    
+		    int veri = calculaSuma(buc, true, 0);
+		    
+		    form.setField("verificador",  veri+"");
+		    
+		    stamper.setFormFlattening(true);
+		    stamper.close();
+		    reader.close();
+			baos.close();
+			document.close();
+			model.addAttribute("pdf", baos);
+		
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// Calcula el dÃ­gito verificador
+	private int calculaSuma(String folio, boolean bnd, int suma) {
+		int valor = 0;
+		String aux = folio.substring(0, 1);
+		if (aux != null) {
+			if (bnd) {
+				valor = Integer.parseInt(aux);
+			} else {
+				valor = Integer.parseInt(aux) * 2;
+			}
+			if (folio.length() > 1)
+				suma = calculaSuma(folio.substring(1), !bnd, suma);
+		}
+		return suma += valor;
+	}
+	
+	public static boolean enviaMail(ResultadoDTO resultado, List<ConesRiesgoDTO> listaCones,
+			List<ConesRiesgoDTO> listaCorreosRiesgos, boolean validaEnvio) throws Exception {
+		String email = "ivillagomez@santander.com.mx";
+		String usuario = "";
+		String fecha = "";
+		boolean correoEnviado = false;
+
+		try {
+			StringBuilder mensaje = new StringBuilder();
+
+			InputStream is = Mensajeria.class
+					.getResourceAsStream("/santander/mx/data/configuracion/mensajeria/templates/conesCorreo.html");
+			Scanner sc = new Scanner(is);
+			while (sc.hasNext()) {
+				mensaje.append(sc.nextLine());
+			}
+
+			is.close();
+			sc.close();
+			
+			if(listaCorreosRiesgos.size() <= 1){
+				usuario = "Estimado Usuari@";
+			} else {
+				usuario = "Estimados Usuari@s";
+			}
+			fecha = listaCones.get(0).getFechaComite();
+			String mensajeHTML = mensaje
+					.toString()
+					.replace("$usuarioCone", usuario)
+					.replace("$fechaCone", fecha)
+					.replace("$listaCones", armaTablaCones(listaCones));
+
+			String from = "crmpyme@santander.com.mx";
+			Properties prop = new Properties();
+			prop.put("mail.smtp.host", "correoentrada.mx.bsch");
+
+			Session session = Session.getDefaultInstance(prop, null);
+			// Define message
+			MimeMessage message = new MimeMessage(session);
+			message.addHeaderLine("method=REQUEST");
+			message.addHeaderLine("charset=UTF-8");
+			message.addHeaderLine("component=VEVENT");
+			
+			message.setFrom(new InternetAddress(from));
+			
+			if(listaCorreosRiesgos.size() > 0){
+				for(int x = 0; x < listaCorreosRiesgos.size(); x++){
+					message.addRecipient(Message.RecipientType.TO, new InternetAddress(listaCorreosRiesgos.get(x).getCorreo()));
+				}
+			}
+			message.addRecipient(Message.RecipientType.BCC, new InternetAddress(email));
+			message.setSubject("Neo jupiter PyME");
+
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setHeader("Content-Class", "urn:content-  classes:calendarmessage");
+			messageBodyPart.setHeader("Content-ID", "calendar_message");
+
+			byte[] bytes = ((ByteArrayOutputStream) resultado.getObjeto()).toByteArray();
+
+			messageBodyPart.setDataHandler(new DataHandler(new ByteArrayDataSource(bytes, "application/xlsx")));
+			messageBodyPart.setFileName("RONES.xlsx");
+
+			MimeBodyPart textPart = new MimeBodyPart();
+			textPart.setHeader("Content-ID", "desc_message");
+			textPart.setContent(mensajeHTML, "text/html; charset=utf-8");
+
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(textPart);
+			multipart.addBodyPart(messageBodyPart);
+
+			message.setContent(multipart);
+			if(validaEnvio){
+				Transport.send(message);
+				correoEnviado = true;
+			}
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return correoEnviado;
+	}
+	
+	
+	public static String armaTablaCones(List<ConesRiesgoDTO> lstCones) {
+		StringBuffer sb = new StringBuffer();
+
+		sb.append("<table border='0' cellspacing='0' >");
+		sb.append("<thead>");
+		sb.append("<tr>");
+		sb.append("<td width='25%' class='titulosTabla'>BUC</td>");
+		sb.append("<td width='25%' align='center' class='titulosTabla'>Razón Social</td>");
+		sb.append("<td width='25%' align='center' class='titulosTabla'>Producto</td>");
+		sb.append("<td width='25%' align='center' class='titulosTabla'>Ejecutivo que Capturo</td>");
+		sb.append("</tr>");
+		sb.append("</thead>");
+		sb.append("<tbody>");
+
+		int t = 0;
+		for (int i = 0; i < lstCones.size(); i++) {
+			if ((i % 2) == 0) {
+				sb.append("<tr style='background: #EBF5FB;'>");
+			} else {
+				sb.append("<tr style='background: white;'>");
+			}
+			sb.append("<td class='renglonesTabla' >").append(lstCones.get(i).getIdBuc()).append("</td>");
+			sb.append("<td align='right' class='renglonesTabla'>").append(lstCones.get(i).getNombreCliente()).append("</td>");
+			sb.append("<td align='right' class='renglonesTabla'>").append(lstCones.get(i).getTipoCredito()).append("</td>");
+			sb.append("<td align='right' class='renglonesTabla'>").append(lstCones.get(i).getEmpresa()).append("</td>");
+			sb.append("</tr>");
+
+		}
+		if(lstCones.size() > 0){
+			t = lstCones.size()-1;
+		} 
+
+		sb.append("<tr style='background: #E5E8E8;'>");
+		sb.append("<td class='totalRen'>Total de Clientes</td>");
+		sb.append("<td class='totalRen'></td>");
+		sb.append("<td class='totalRen'></td>");
+		sb.append("<td align='right' class='totalRen'>").append(t).append("</td>");
+		sb.append("</tr>");
+		sb.append("</tbody>");
+		sb.append("</table>");
+
+		return sb.toString();
+	}
+	
+	public ByteArrayOutputStream envio(List<ConesRiesgoDTO> listaCones, HttpServletRequest request, int ejecutivo) {
+
+		XSSFWorkbook workBook = new XSSFWorkbook();
+		XSSFSheet excelSheet = workBook.createSheet("RONES");
+		String region = "";
+		String fecha = "";
+		if (listaCones.size() > 0) {
+			region = listaCones.get(0).getRegion();
+			fecha = listaCones.get(0).getFechaComite();
+		}
+		
+		createHeaderDatos((XSSFWorkbook) workBook, excelSheet, region, fecha);
+		createTitulosTabla((XSSFWorkbook) workBook, excelSheet, listaCones);
+		createContenidosTabla((XSSFWorkbook) workBook, excelSheet, listaCones, ejecutivo);
+
+		excelSheet.autoSizeColumn(0);
+		excelSheet.autoSizeColumn(1);
+		excelSheet.autoSizeColumn(2);
+		excelSheet.autoSizeColumn(3);
+		excelSheet.autoSizeColumn(4);
+		excelSheet.autoSizeColumn(5);
+		excelSheet.autoSizeColumn(6);
+		excelSheet.autoSizeColumn(7);
+		excelSheet.autoSizeColumn(8);
+
+		Document document = new Document();
+
+		document.open();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);
+
+		try {
+			
+			InputStream inputStream = null;
+			int pictureIdx = 0;
+			ServletContext context = request.getSession().getServletContext();
+			inputStream = context.getResourceAsStream("/recursos/imagenes/iconosAlertas/santander.png");
+		
+		   //Get the contents of an InputStream as a byte[].
+		   byte[] bytes = null;
+		   
+		   if(inputStream != null){
+			   bytes = IOUtils.toByteArray(inputStream);
+			   
+			   //Adds a picture to the workbook
+			   pictureIdx = workBook.addPicture(bytes, workBook.PICTURE_TYPE_PNG);
+			   //close the input stream
+			   inputStream.close();
+			   
+			   //Returns an object that handles instantiating concrete classes
+			   CreationHelper helper = workBook.getCreationHelper();
+			   //Creates the top-level drawing patriarch.
+			   Drawing drawing = excelSheet.createDrawingPatriarch();
+			   
+			   //Create an anchor that is attached to the worksheet
+			   ClientAnchor anchor = helper.createClientAnchor();
+			   
+			   //create an anchor with upper left cell _and_ bottom right cell
+			   anchor.setCol1(1); 
+			   anchor.setRow1(0); 
+			   anchor.setCol2(5); 
+			   anchor.setRow2(3); 
+			   
+			   //Creates a picture
+			   Picture pict = drawing.createPicture(anchor, pictureIdx);
+		   }
+
+			workBook.write(baos);
+			document.close();
+			baos.close();
+
+		} catch (FileNotFoundException ex) {
+			//System.out.println("Archivo no localizable en sistema de archivos");
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			//System.out.println("Error de entrada/salida");
+			ex.printStackTrace();
+		}
+
+		return baos;
+	}
+
+	// entra
+	public void createHeaderDatos(XSSFWorkbook workBook, XSSFSheet excelSheet,
+			String region, String fecha) {
+		//int numeroDeCelda = 2;
+		XSSFRow excelHeader = excelSheet.createRow(3);
+		XSSFRow excelHeader2 = excelSheet.createRow(5);
+		XSSFRow excelHeader3 = excelSheet.createRow(7);
+		XSSFRow excelHeader4 = excelSheet.createRow(8);
+		XSSFRow excelHeader5 = excelSheet.createRow(1);
+		
+		XSSFCell cellFecha = excelHeader.createCell(1);
+		XSSFCell cellFechaVal  = excelHeader.createCell(2);
+		XSSFCell cellRegion  = excelHeader2.createCell(1);
+		XSSFCell cellRegionVal  = excelHeader2.createCell(2);
+		XSSFCell cellAsistentes  = excelHeader3.createCell(1);
+		XSSFCell cellAsistentesVal  = excelHeader3.createCell(2);
+		XSSFCell cellSolicitud  = excelHeader4.createCell(8);
+		excelSheet.addMergedRegion(new CellRangeAddress(8,8,8,13));
+		XSSFCell cellResolucion  = excelHeader4.createCell(14);
+		excelSheet.addMergedRegion(new CellRangeAddress(8,8,14,16));
+		XSSFCell cellTitulo  = excelHeader5.createCell(5);
+		excelSheet.addMergedRegion(new CellRangeAddress(1,1,5,16));
+		
+		
+		XSSFCellStyle cellStyle = workBook.createCellStyle(); 
+		Font font = workBook.createFont();
+		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		cellStyle.setFont(font);
+		
+		cellFecha.setCellValue("FECHA RONE:");
+		cellFecha.setCellStyle(cellStyle);
+		
+		cellFechaVal.setCellValue(fecha);
+		
+		cellRegion.setCellValue("REGION:");
+		cellRegion.setCellStyle(cellStyle);
+
+		cellRegionVal.setCellValue(region);
+		
+		cellAsistentes.setCellValue("Asistentes:");
+		cellAsistentes.setCellStyle(cellStyle);
+
+		cellAsistentesVal.setCellValue("-----");
+		
+		XSSFCellStyle cellStyle1 = workBook.createCellStyle(); 
+		
+		cellStyle1.setAlignment(CellStyle.ALIGN_CENTER);
+		cellStyle1.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		cellStyle1.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		cellStyle1.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+		
+		cellStyle1.setBorderBottom(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyle1.setBorderTop(XSSFCellStyle.BORDER_MEDIUM);
+		//cellStyle1.setBorderRight(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyle1.setBorderLeft(XSSFCellStyle.BORDER_MEDIUM);
+		
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_MEDIUM, new CellRangeAddress(8,8,8,13), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_MEDIUM, new CellRangeAddress(8,8,8,13), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_MEDIUM, new CellRangeAddress(8,8,8,13), excelSheet, workBook);
+		
+		XSSFCellStyle cellStyle2 = workBook.createCellStyle();  
+		
+		cellStyle2.setAlignment(CellStyle.ALIGN_CENTER);
+		cellStyle2.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		cellStyle2.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		cellStyle2.setFillForegroundColor(IndexedColors.GREEN.getIndex());
+		
+		cellStyle2.setBorderBottom(XSSFCellStyle.BORDER_MEDIUM);
+        cellStyle2.setBorderTop(XSSFCellStyle.BORDER_MEDIUM);
+        //cellStyle2.setBorderRight(XSSFCellStyle.BORDER_MEDIUM);
+        cellStyle2.setBorderLeft(XSSFCellStyle.BORDER_MEDIUM);
+        
+        RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_MEDIUM, new CellRangeAddress(8,8,14,16), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_MEDIUM, new CellRangeAddress(8,8,14,16), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_MEDIUM, new CellRangeAddress(8,8,14,16), excelSheet, workBook);
+		
+		XSSFCellStyle cellStyle3 = workBook.createCellStyle(); 
+		
+		cellStyle3.setAlignment(CellStyle.ALIGN_CENTER);
+		cellStyle3.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		cellStyle3.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		cellStyle3.setFillForegroundColor(IndexedColors.RED.getIndex());
+		
+		cellStyle3.setBorderBottom(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyle3.setBorderTop(XSSFCellStyle.BORDER_MEDIUM);
+		//cellStyle3.setBorderRight(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyle3.setBorderLeft(XSSFCellStyle.BORDER_MEDIUM);
+		
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_MEDIUM, new CellRangeAddress(1,1,5,16), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_MEDIUM, new CellRangeAddress(1,1,5,16), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_MEDIUM, new CellRangeAddress(1,1,5,16), excelSheet, workBook);
+		
+		Font fontH = workBook.createFont();
+		fontH.setColor(HSSFColor.WHITE.index);		
+		cellStyle1.setFont(fontH);
+		cellStyle2.setFont(fontH);
+		cellStyle3.setFont(fontH);
+		
+		cellSolicitud.setCellValue("SOLICITUD");
+		cellSolicitud.setCellStyle(cellStyle1);
+		cellResolucion.setCellValue("RESOLUCION");
+		cellResolucion.setCellStyle(cellStyle2);
+		cellTitulo.setCellValue("ACTA COMITE REGIONAL PYME");
+		cellTitulo.setCellStyle(cellStyle3);
+	}
+
+	public void createTitulosTabla(XSSFWorkbook workBook, XSSFSheet excelSheet,
+			List<ConesRiesgoDTO> listaCones) {
+		
+		int numeroDeCelda = 1;
+		XSSFRow excelHeader = excelSheet.createRow(POSICION_TITULOS_TABLA);
+		XSSFCell cellFecha = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellRegion  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellZona  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellFigura  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellNombre  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellClienteN  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellClienteA  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellBuc  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellEmpresa  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellTipoCredito  = excelHeader.createCell(numeroDeCelda++);
+		//XSSFCell cellMcdo  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellMonto  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellPlazo  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellGarantia  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellResolucion  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellMontoAutorizado  = excelHeader.createCell(numeroDeCelda++);
+		XSSFCell cellCometarios  = excelHeader.createCell(numeroDeCelda++);
+		
+		cellFecha.setCellValue("FECHA");
+		cellRegion.setCellValue("REGION");
+		cellZona.setCellValue("ZONA / CP");
+		cellFigura.setCellValue("FIGURA");
+		cellNombre.setCellValue("NOMBRE / EJECUTIVO / GERENTE");
+		cellClienteN.setCellValue("CLIENTE NVO");
+		cellClienteA.setCellValue("CLIENTE AGRO");
+		cellBuc.setCellValue("BUC");
+		cellEmpresa.setCellValue("EMPRESA");
+		cellTipoCredito.setCellValue("TIPO CREDITO");
+		//cellMcdo.setCellValue("MCDO ABIERTO / CAMPANIA / EMERGENTE");
+		cellMonto.setCellValue("MONTOS (MILES)");
+		cellPlazo.setCellValue("PLAZO (MESES)");
+		cellGarantia.setCellValue("GARANTIA");
+		cellResolucion.setCellValue("RESOLUCION");
+		cellMontoAutorizado.setCellValue("MONTO AUTORIZADO (MILES)");
+		cellCometarios.setCellValue("COMENTARIO");
+		
+		
+		XSSFCellStyle cellStyleRed = workBook.createCellStyle();  
+		cellStyleRed.setAlignment(CellStyle.ALIGN_CENTER);
+		cellStyleRed.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		cellStyleRed.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		cellStyleRed.setFillForegroundColor(IndexedColors.RED.getIndex());
+		
+		cellStyleRed.setBorderBottom(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyleRed.setBorderTop(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyleRed.setBorderRight(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyleRed.setBorderLeft(XSSFCellStyle.BORDER_MEDIUM);
+		
+		XSSFCellStyle cellStyleAzul = workBook.createCellStyle();  
+		cellStyleAzul.setAlignment(CellStyle.ALIGN_CENTER);
+		cellStyleAzul.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		cellStyleAzul.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		cellStyleAzul.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+		
+		cellStyleAzul.setBorderBottom(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyleAzul.setBorderTop(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyleAzul.setBorderRight(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyleAzul.setBorderLeft(XSSFCellStyle.BORDER_MEDIUM);
+		
+		XSSFCellStyle cellStyleVerde = workBook.createCellStyle(); 
+		cellStyleVerde.setAlignment(CellStyle.ALIGN_CENTER);
+		cellStyleVerde.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		cellStyleVerde.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		cellStyleVerde.setFillForegroundColor(IndexedColors.GREEN.getIndex());
+		
+		cellStyleVerde.setBorderBottom(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyleVerde.setBorderTop(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyleVerde.setBorderRight(XSSFCellStyle.BORDER_MEDIUM);
+		cellStyleVerde.setBorderLeft(XSSFCellStyle.BORDER_MEDIUM);
+		
+		Font font = workBook.createFont();
+		font.setColor(HSSFColor.WHITE.index);		
+		cellStyleRed.setFont(font);
+		cellStyleAzul.setFont(font);
+		cellStyleVerde.setFont(font);
+		
+		cellFecha.setCellStyle(cellStyleRed);
+		cellRegion.setCellStyle(cellStyleRed);
+		cellZona.setCellStyle(cellStyleRed);
+		cellFigura.setCellStyle(cellStyleRed);
+		cellNombre.setCellStyle(cellStyleRed);
+		cellClienteN.setCellStyle(cellStyleRed);
+		cellClienteA.setCellStyle(cellStyleRed);
+		cellBuc.setCellStyle(cellStyleAzul);
+		cellEmpresa.setCellStyle(cellStyleAzul);
+		cellTipoCredito.setCellStyle(cellStyleAzul);
+		//cellMcdo.setCellStyle(cellStyleAzul);
+		cellMonto.setCellStyle(cellStyleAzul);
+		cellPlazo.setCellStyle(cellStyleAzul);
+		cellGarantia.setCellStyle(cellStyleAzul);
+		cellResolucion.setCellStyle(cellStyleVerde);
+		cellMontoAutorizado.setCellStyle(cellStyleVerde);
+		cellCometarios.setCellStyle(cellStyleVerde);
+		
+		
+	}
+
+	public void createContenidosTabla(XSSFWorkbook workBook,
+			XSSFSheet excelSheet, List<ConesRiesgoDTO> listaCones, int ejecutivo) {
+		int numeroDeCelda = 1;
+		int indiceRow = POSICION_INICIO_FILAS_TABLA;
+		XSSFCellStyle cellStyleBold = workBook.createCellStyle();
+		Font fontBold = workBook.createFont();
+		fontBold.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		cellStyleBold.setFont(fontBold);
+		for (int i = 0; i < listaCones.size(); i++) {
+			ConesRiesgoDTO e = listaCones.get(i);
+			XSSFRow excelRowContent = excelSheet.createRow(indiceRow++);
+			numeroDeCelda = 1;
+
+			XSSFCell cellFecha = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellRegion = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellZona = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellFigura = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellNombre = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellClienteN = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellClienteA = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellBuc = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellEmpresa = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellTipoCredito = excelRowContent.createCell(numeroDeCelda++);
+			//XSSFCell cellMcdo = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellMonto = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellPlazo = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellGarantia = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellResolucion = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellMontoAutorizado = excelRowContent.createCell(numeroDeCelda++);
+			XSSFCell cellCometarios = excelRowContent.createCell(numeroDeCelda++);
+			
+			
+			
+			XSSFCellStyle cellStyleGrey = workBook.createCellStyle();  
+			cellStyleGrey.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+			cellStyleGrey.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
+			Font font = workBook.createFont();
+			font.setColor(HSSFColor.WHITE.index);		
+			cellStyleGrey.setFont(font);
+			
+			if(e.getFechaComite() == "" && e.getRegion() == ""){
+				
+				cellFecha.setCellValue("Total Operaciones: " + e.getEstatusCone().getKey());
+				cellRegion.setCellValue(e.getRegion());
+				cellZona.setCellValue(e.getZona());
+				cellFigura.setCellValue(e.getTipoEjecutivo());
+				cellNombre.setCellValue(e.getNombreCliente());
+				cellClienteN.setCellValue("Total Clientes: " + e.getClienteN());
+				cellClienteA.setCellValue("Total Clientes: " + e.getClienteA());
+				cellBuc.setCellValue(e.getIdBuc());
+				cellEmpresa.setCellValue(e.getEmpresa());
+				cellTipoCredito.setCellValue(e.getTipoCredito());
+				//cellMcdo.setCellValue(e.getMcdo());
+				cellMonto.setCellValue("Total monto: " + e.getMonto());
+				cellPlazo.setCellValue(e.getPlazo());
+				cellGarantia.setCellValue(e.getGarantia());
+				if ( ejecutivo == 38 ){
+					cellResolucion.setCellValue("");
+					cellMontoAutorizado.setCellValue("");
+					cellCometarios.setCellValue("");
+				} else {
+					cellResolucion.setCellValue(e.getResolucion());
+					cellMontoAutorizado.setCellValue(e.getMontoAutorizado());
+					cellCometarios.setCellValue(e.getComentarios());  
+				}
+				
+				cellFecha.setCellStyle(cellStyleGrey);
+				cellRegion.setCellStyle(cellStyleGrey);
+				cellZona.setCellStyle(cellStyleGrey);
+				cellFigura.setCellStyle(cellStyleGrey);
+				cellNombre.setCellStyle(cellStyleGrey);
+				cellClienteN.setCellStyle(cellStyleGrey);
+				cellClienteA.setCellStyle(cellStyleGrey);
+				cellBuc.setCellStyle(cellStyleGrey);
+				cellEmpresa.setCellStyle(cellStyleGrey);
+				cellTipoCredito.setCellStyle(cellStyleGrey);
+				//cellMcdo.setCellStyle(cellStyleGrey);
+				cellMonto.setCellStyle(cellStyleGrey);
+				cellPlazo.setCellStyle(cellStyleGrey);
+				cellGarantia.setCellStyle(cellStyleGrey);
+				cellResolucion.setCellStyle(cellStyleGrey);
+				cellMontoAutorizado.setCellStyle(cellStyleGrey);
+				cellCometarios.setCellStyle(cellStyleGrey); 
+				
+			} else {
+				
+				cellFecha.setCellValue(e.getFechaComite());
+				cellRegion.setCellValue(e.getRegion());
+				cellZona.setCellValue(e.getZona());
+				cellFigura.setCellValue(e.getTipoEjecutivo());
+				cellNombre.setCellValue(e.getNombreCliente());
+				cellClienteN.setCellValue(e.getClienteN());
+				cellClienteA.setCellValue(e.getClienteA());
+				cellBuc.setCellValue(e.getIdBuc());
+				cellEmpresa.setCellValue(e.getEmpresa());
+				cellTipoCredito.setCellValue(e.getTipoCredito());
+				//cellMcdo.setCellValue(e.getMcdo());
+				cellMonto.setCellValue(e.getMonto());
+				cellPlazo.setCellValue(e.getPlazo());
+				cellGarantia.setCellValue(e.getGarantia());
+				if ( ejecutivo == 38 ){
+					cellResolucion.setCellValue("");
+					cellMontoAutorizado.setCellValue("");
+					cellCometarios.setCellValue("");
+				} else {
+					cellResolucion.setCellValue(e.getResolucion());
+					cellMontoAutorizado.setCellValue(e.getMontoAutorizado());
+					cellCometarios.setCellValue(e.getComentarios());  
+				}
+				
+			}
+
+		}
+		
+	}
+	
+}
