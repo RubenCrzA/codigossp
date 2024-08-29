@@ -1,0 +1,537 @@
+public void createHeaderDatos(XSSFWorkbook workBook, XSSFSheet excelSheet, List<TitulosExcelPlanTransTableauDTO> lstTitulos, List<DescriptorDTO> listaSubtitulo) {
+
+		XSSFRow excelHeader = excelSheet.createRow(1); // Row para titulo del excel
+		XSSFRow excelHeader3 = excelSheet.createRow(5); // Row para titulos de productos
+		XSSFRow excelHeader2 = excelSheet.createRow(6); // Row para subtitulos de productos	
+
+		int INICIO_CAPTACION = 4;
+		int FIN_CAPTACION = (INICIO_CAPTACION + (lstTitulos.get(0).getNoColumnas() - 1));
+		int INICIO_ENLACE = FIN_CAPTACION + 1;
+		int FIN_ENLACE = (INICIO_ENLACE + (lstTitulos.get(1).getNoColumnas() - 1));
+		int INICIO_NOMINA = FIN_ENLACE + 1;
+		int FIN_NOMINA = (INICIO_NOMINA + (lstTitulos.get(2).getNoColumnas() - 1));
+		int INICIO_COMERCIO = FIN_NOMINA + 1;
+		int FIN_COMERCIO = (INICIO_COMERCIO + (lstTitulos.get(3).getNoColumnas() - 1));
+		int INICIO_TPV = FIN_COMERCIO + 1;
+		int FIN_TPV = (INICIO_TPV + (lstTitulos.get(4).getNoColumnas() - 1));
+		int INICIO_CREDITO = FIN_TPV + 1;
+		int FIN_CREDITO = (INICIO_CREDITO + (lstTitulos.get(5).getNoColumnas() - 1));
+		int INICIO_SEGUROS = FIN_CREDITO + 1;
+		int FIN_SEGUROS = (INICIO_SEGUROS + (lstTitulos.get(6).getNoColumnas() -1));
+		int INICIO_PAGO = FIN_SEGUROS + 1;
+		int FIN_PAGO = (INICIO_PAGO + (lstTitulos.get(7).getNoColumnas() - 1));
+		int INICIO_HOME = FIN_PAGO + 1;
+		int FIN_HOME = (INICIO_HOME + (lstTitulos.get(8).getNoColumnas() - 1));
+		int INICIO_H2H = FIN_HOME + 1;
+		int FIN_H2H = (INICIO_H2H + (lstTitulos.get(9).getNoColumnas() - 1));
+		int INICIO_CHECK = FIN_H2H + 1;
+		int FIN_CHECK = (INICIO_CHECK + (lstTitulos.get(10).getNoColumnas() - 1));
+		int INICIO_SWIFT = FIN_CHECK + 1;
+		int FIN_SWIFT = (INICIO_SWIFT + (lstTitulos.get(11).getNoColumnas() - 1));
+		int INICIO_CENTRO = FIN_SWIFT + 1;
+		int FIN_CENTRO = (INICIO_CENTRO + (lstTitulos.get(12).getNoColumnas() - 1));
+		int INICIO_ROF = FIN_CENTRO + 1;
+		int FIN_ROF = (INICIO_ROF + (lstTitulos.get(13).getNoColumnas() - 1));
+
+		XSSFCell cellTitulo = excelHeader.createCell(8);
+		excelSheet.addMergedRegion(new CellRangeAddress(1, 2, 8, 31));
+
+		// Titulos
+		XSSFCell cellCaptacion = excelHeader3.createCell(4);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_CAPTACION, FIN_CAPTACION));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CAPTACION, FIN_CAPTACION), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CAPTACION, FIN_CAPTACION), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CAPTACION, FIN_CAPTACION), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CAPTACION, FIN_CAPTACION), excelSheet, workBook);
+		XSSFCell cellEnlace = excelHeader3.createCell(INICIO_ENLACE);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_ENLACE, FIN_ENLACE));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_ENLACE, FIN_ENLACE), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_ENLACE, FIN_ENLACE), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_ENLACE, FIN_ENLACE), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_ENLACE, FIN_ENLACE), excelSheet, workBook);
+		XSSFCell cellNomina = excelHeader3.createCell(INICIO_NOMINA);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_NOMINA, FIN_NOMINA));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_NOMINA, FIN_NOMINA), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_NOMINA, FIN_NOMINA), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_NOMINA, FIN_NOMINA), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_NOMINA, FIN_NOMINA), excelSheet, workBook);
+		XSSFCell cellComercio = excelHeader3.createCell(INICIO_COMERCIO);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_COMERCIO, FIN_COMERCIO));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_COMERCIO, FIN_COMERCIO), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_COMERCIO, FIN_COMERCIO), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_COMERCIO, FIN_COMERCIO), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_COMERCIO, FIN_COMERCIO), excelSheet, workBook);
+		XSSFCell cellTPV = excelHeader3.createCell(INICIO_TPV);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_TPV, FIN_TPV));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_TPV, FIN_TPV), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_TPV, FIN_TPV), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_TPV, FIN_TPV), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_TPV, FIN_TPV), excelSheet, workBook);
+		XSSFCell cellCredito = excelHeader3.createCell(INICIO_CREDITO);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_CREDITO, FIN_CREDITO));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CREDITO, FIN_CREDITO), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CREDITO, FIN_CREDITO), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CREDITO, FIN_CREDITO), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CREDITO, FIN_CREDITO), excelSheet, workBook);
+		XSSFCell cellSeguros = excelHeader3.createCell(INICIO_SEGUROS);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_SEGUROS, FIN_SEGUROS));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_SEGUROS, FIN_SEGUROS), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_SEGUROS, FIN_SEGUROS), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_SEGUROS, FIN_SEGUROS), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_SEGUROS, FIN_SEGUROS), excelSheet, workBook);		
+		XSSFCell cellPago = excelHeader3.createCell(INICIO_PAGO);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_PAGO, FIN_PAGO));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_PAGO, FIN_PAGO), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_PAGO, FIN_PAGO), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_PAGO, FIN_PAGO), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_PAGO, FIN_PAGO), excelSheet, workBook);
+		XSSFCell cellHome = excelHeader3.createCell(INICIO_HOME);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_HOME, FIN_HOME));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_HOME, FIN_HOME), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_HOME, FIN_HOME), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_HOME, FIN_HOME), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_HOME, FIN_HOME), excelSheet, workBook);
+		XSSFCell cellH2H = excelHeader3.createCell(INICIO_H2H);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_H2H, FIN_H2H));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_H2H, FIN_H2H), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_H2H, FIN_H2H), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_H2H, FIN_H2H), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_H2H, FIN_H2H), excelSheet, workBook);
+		XSSFCell cellCheck = excelHeader3.createCell(INICIO_CHECK);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_CHECK, FIN_CHECK));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CHECK, FIN_CHECK), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CHECK, FIN_CHECK), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CHECK, FIN_CHECK), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CHECK, FIN_CHECK), excelSheet, workBook);
+		XSSFCell cellSwift = excelHeader3.createCell(INICIO_SWIFT);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_SWIFT, FIN_SWIFT));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_SWIFT, FIN_SWIFT), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_SWIFT, FIN_SWIFT), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_SWIFT, FIN_SWIFT), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_SWIFT, FIN_SWIFT), excelSheet, workBook);
+		XSSFCell cellCentro = excelHeader3.createCell(INICIO_CENTRO);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_CENTRO, FIN_CENTRO));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CENTRO, FIN_CENTRO), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CENTRO, FIN_CENTRO), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CENTRO, FIN_CENTRO), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_CENTRO, FIN_CENTRO), excelSheet, workBook);
+		XSSFCell cellROF = excelHeader3.createCell(INICIO_ROF);
+		excelSheet.addMergedRegion(new CellRangeAddress(5, 5, INICIO_ROF, FIN_ROF));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_ROF, FIN_ROF), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_ROF, FIN_ROF), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_ROF, FIN_ROF), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(5, 5, INICIO_ROF, FIN_ROF), excelSheet, workBook);
+
+		// Subtitulos
+		//CAPTACION
+		XSSFCell cellCapSaldoProm = excelHeader2.createCell(4);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 4, 5));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 4, 5), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 4, 5), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 4, 5), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 4, 5), excelSheet, workBook);
+		XSSFCell cellCapICV = excelHeader2.createCell(6);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 6, 7));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 6, 7), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 6, 7), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 6, 7), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 6, 7), excelSheet, workBook);
+		XSSFCell cellCapTasa = excelHeader2.createCell(8);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 8, 9));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 8, 9), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 8, 9), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 8, 9), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 8, 9), excelSheet, workBook);
+		XSSFCell cellCapFondos = excelHeader2.createCell(10);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 10, 11));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 10, 11), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 10, 11), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 10, 11), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 10, 11), excelSheet, workBook);
+		XSSFCell cellCapTasa2 = excelHeader2.createCell(12);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 12, 13));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 12, 13), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 12, 13), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 12, 13), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 12, 13), excelSheet, workBook);
+		//ENLACE
+		XSSFCell cellEnlaceTasa = excelHeader2.createCell(14);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 14, 15));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 14, 15), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 14, 15), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 14, 15), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 14, 15), excelSheet, workBook);
+		XSSFCell cellEnlaceCosto = excelHeader2.createCell(16);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 16, 17));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 16, 17), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 16, 17), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 16, 17), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 16, 17), excelSheet, workBook);
+		//NOMINA
+		XSSFCell cellNomNomina = excelHeader2.createCell(18);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 18, 19));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 18, 19), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 18, 19), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 18, 19), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 18, 19), excelSheet, workBook);
+//		XSSFCell cellNomApoyo = excelHeader2.createCell(20);
+//		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 20, 21));
+//		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 20, 21), excelSheet, workBook);
+//		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 20, 21), excelSheet, workBook);
+//		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 20, 21), excelSheet, workBook);
+//		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 20, 21), excelSheet, workBook);
+		//COMERCIO PLUS
+		XSSFCell cellComContratado = excelHeader2.createCell(20);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 20, 21));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 20, 21), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 20, 21), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 20, 21), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 20, 21), excelSheet, workBook);
+//		XSSFCell cellComBonifi = excelHeader2.createCell(22);
+//		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 22, 23));
+//		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 22, 23), excelSheet, workBook);
+//		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 22, 23), excelSheet, workBook);
+//		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 22, 23), excelSheet, workBook);
+//		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 22, 23), excelSheet, workBook);
+		//TPV
+		XSSFCell cellTPVInd = excelHeader2.createCell(22);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 22, 23));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 22, 23), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 22, 23), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 22, 23), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 22, 23), excelSheet, workBook);
+		XSSFCell cellTPVNoAfiliacion = excelHeader2.createCell(24);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 24, 25));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 24, 25), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 24, 25), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 24, 25), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 24, 25), excelSheet, workBook);
+		XSSFCell cellTPVNoTPV = excelHeader2.createCell(26);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 26, 27));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 26, 27), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 26, 27), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 26, 27), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 26, 27), excelSheet, workBook);
+		XSSFCell cellTPVFacturacion = excelHeader2.createCell(28);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 28, 29));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 28, 29), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 28, 29), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 28, 29), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 28, 29), excelSheet, workBook);
+		XSSFCell cellTPVTasa = excelHeader2.createCell(30);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 30, 31));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 30, 31), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 30, 31), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 30, 31), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 30, 31), excelSheet, workBook);
+		XSSFCell cellTPVCondiciones = excelHeader2.createCell(32);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 32, 33));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 32, 33), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 32, 33), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 32, 33), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 32, 33), excelSheet, workBook);
+		//CREDITO
+		XSSFCell cellCredEnun = excelHeader2.createCell(34);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 34, 35));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 34, 35), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 34, 35), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 34, 35), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 34, 35), excelSheet, workBook);
+		XSSFCell cellCredCredito = excelHeader2.createCell(36);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 36, 37));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 36, 37), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 36, 37), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 36, 37), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 36, 37), excelSheet, workBook);
+		XSSFCell cellCredCond = excelHeader2.createCell(38);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 38, 39));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 38, 39), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 38, 39), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 38, 39), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 38, 39), excelSheet, workBook);
+		//SEGUROS
+		XSSFCell cellSegurosPoliza = excelHeader2.createCell(40);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 40, 41));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 40, 41), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 40, 41), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 40, 41), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 40, 41), excelSheet, workBook);
+		XSSFCell cellSegurosMonto = excelHeader2.createCell(42);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 42, 43));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 42, 43), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 42, 43), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 42, 43), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 42, 43), excelSheet, workBook);
+		//PAGO REFERENCIADO
+		XSSFCell cellPagoCostos = excelHeader2.createCell(44);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 44, 45));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 44, 45), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 44, 45), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 44, 45), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 44, 45), excelSheet, workBook);
+		XSSFCell cellPagoCondiciones = excelHeader2.createCell(46);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 46, 47));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 46, 47), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 46, 47), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 46, 47), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 46, 47), excelSheet, workBook);
+		//HOME DEPOSIT
+		XSSFCell cellHomeCostos = excelHeader2.createCell(48);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 48, 49));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 48, 49), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 48, 49), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 48, 49), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 48, 49), excelSheet, workBook);
+		XSSFCell cellHomeCondiciones = excelHeader2.createCell(50);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 50, 51));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 50, 51), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 50, 51), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 50, 51), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 50, 51), excelSheet, workBook);
+		//H2H
+		XSSFCell cellH2HCostos = excelHeader2.createCell(52);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 52, 53));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 52, 53), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 52, 53), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 52, 53), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 52, 53), excelSheet, workBook);
+		XSSFCell cellH2HCondiciones = excelHeader2.createCell(54);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 54, 55));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 54, 55), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 54, 55), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 54, 55), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 54, 55), excelSheet, workBook);
+		//CHECK ON LINE
+		XSSFCell cellCheckCostos = excelHeader2.createCell(56);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 56, 57));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 56, 57), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 56, 57), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 56, 57), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 56, 57), excelSheet, workBook);
+		XSSFCell cellCheckCondiciones = excelHeader2.createCell(58);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 58, 59));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 58, 59), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 58, 59), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 58, 59), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 58, 59), excelSheet, workBook);
+		//SWIFT
+		XSSFCell cellSwiftCostos = excelHeader2.createCell(60);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 60, 61));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 60, 61), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 60, 61), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 60, 61), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 60, 61), excelSheet, workBook);
+		XSSFCell cellSwiftCondiciones = excelHeader2.createCell(62);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 62, 63));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 62, 63), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 62, 63), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 62, 63), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 62, 63), excelSheet, workBook);
+		//CENTRO DE PAGOS
+		XSSFCell cellCentroCostos = excelHeader2.createCell(64);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 64, 65));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 64, 65), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 64, 65), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 64, 65), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 64, 65), excelSheet, workBook);
+		XSSFCell cellCentroCondiciones = excelHeader2.createCell(66);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 66, 67));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 66, 67), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 66, 67), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 66, 67), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 66, 67), excelSheet, workBook);
+		//ROF
+		XSSFCell cellROFCambios = excelHeader2.createCell(68);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 6, 68, 69));
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 68, 69), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 68, 69), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 68, 69), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_HAIR, new CellRangeAddress(6, 6, 68, 69), excelSheet, workBook);
+		XSSFCell cellResolucion = excelHeader2.createCell(70);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 7, 70, 70));
+		XSSFCell cellComentario = excelHeader2.createCell(71);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 7, 71, 71));
+		XSSFCell cellBucsRel = excelHeader2.createCell(72);
+		excelSheet.addMergedRegion(new CellRangeAddress(6, 7, 72, 72));
+
+		XSSFCellStyle cellStyleTitulo = workBook.createCellStyle();
+		Font font = workBook.createFont();
+		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		font.setColor(HSSFColor.WHITE.index);
+
+		XSSFCellStyle cellStyleRojo = workBook.createCellStyle();
+		cellStyleRojo.setAlignment(CellStyle.ALIGN_CENTER);
+		cellStyleRojo.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		cellStyleRojo.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		cellStyleRojo.setFillForegroundColor(IndexedColors.RED.getIndex());
+		cellStyleRojo.setBorderBottom(XSSFCellStyle.BORDER_HAIR);
+		cellStyleRojo.setBorderTop(XSSFCellStyle.BORDER_HAIR);
+		cellStyleRojo.setBorderRight(XSSFCellStyle.BORDER_HAIR);
+		cellStyleRojo.setBorderLeft(XSSFCellStyle.BORDER_HAIR);
+
+		XSSFCellStyle cellStyleVerde = workBook.createCellStyle();
+		cellStyleVerde.setAlignment(CellStyle.ALIGN_CENTER);
+		cellStyleVerde.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		cellStyleVerde.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		cellStyleVerde.setFillForegroundColor(IndexedColors.GREEN.getIndex());
+		cellStyleVerde.setBorderBottom(XSSFCellStyle.BORDER_HAIR);
+		cellStyleVerde.setBorderTop(XSSFCellStyle.BORDER_HAIR);
+		cellStyleVerde.setBorderRight(XSSFCellStyle.BORDER_HAIR);
+		cellStyleVerde.setBorderLeft(XSSFCellStyle.BORDER_HAIR);
+
+		Font fontT = workBook.createFont();
+		fontT.setColor(HSSFColor.WHITE.index);
+		cellStyleRojo.setFont(fontT);
+		cellStyleVerde.setFont(fontT);
+
+		cellStyleTitulo.setAlignment(CellStyle.ALIGN_CENTER);
+		cellStyleTitulo.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		cellStyleTitulo.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+		cellStyleTitulo.setFillForegroundColor(IndexedColors.RED.getIndex());
+		cellStyleTitulo.setBorderBottom(XSSFCellStyle.BORDER_NONE);
+		cellStyleTitulo.setBorderTop(XSSFCellStyle.BORDER_NONE);
+		cellStyleTitulo.setBorderLeft(XSSFCellStyle.BORDER_NONE);
+
+		RegionUtil.setBorderBottom(XSSFCellStyle.BORDER_NONE, new CellRangeAddress(1, 1, 10, 18), excelSheet, workBook);
+		RegionUtil.setBorderTop(XSSFCellStyle.BORDER_NONE, new CellRangeAddress(1, 1, 10, 18), excelSheet, workBook);
+		RegionUtil.setBorderRight(XSSFCellStyle.BORDER_NONE, new CellRangeAddress(1, 1, 10, 18), excelSheet, workBook);
+		RegionUtil.setBorderLeft(XSSFCellStyle.BORDER_NONE, new CellRangeAddress(1, 1, 10, 18), excelSheet, workBook);
+
+		// TITULOS
+		cellCaptacion.setCellValue(lstTitulos.get(0).getDesProducto().toUpperCase());
+		cellEnlace.setCellValue(lstTitulos.get(1).getDesProducto().toUpperCase());
+		cellNomina.setCellValue(lstTitulos.get(2).getDesProducto().toUpperCase());
+		cellComercio.setCellValue(lstTitulos.get(3).getDesProducto().toUpperCase());
+		cellTPV.setCellValue(lstTitulos.get(4).getDesProducto().toUpperCase());
+		cellCredito.setCellValue(lstTitulos.get(5).getDesProducto().toUpperCase());
+		cellSeguros.setCellValue(lstTitulos.get(6).getDesProducto().toUpperCase());
+		cellPago.setCellValue(lstTitulos.get(7).getDesProducto().toUpperCase());
+		cellHome.setCellValue(lstTitulos.get(8).getDesProducto().toUpperCase());
+		cellH2H.setCellValue(lstTitulos.get(9).getDesProducto().toUpperCase());
+		cellCheck.setCellValue(lstTitulos.get(10).getDesProducto().toUpperCase());
+		cellSwift.setCellValue(lstTitulos.get(11).getDesProducto().toUpperCase());
+		cellCentro.setCellValue(lstTitulos.get(12).getDesProducto().toUpperCase());
+		cellROF.setCellValue(lstTitulos.get(13).getDesProducto().toUpperCase());
+		cellCaptacion.setCellStyle(cellStyleRojo);
+		cellEnlace.setCellStyle(cellStyleRojo);
+		cellNomina.setCellStyle(cellStyleRojo);
+		cellComercio.setCellStyle(cellStyleRojo);
+		cellTPV.setCellStyle(cellStyleRojo);
+		cellCredito.setCellStyle(cellStyleRojo);
+		cellSeguros.setCellStyle(cellStyleRojo);
+		cellPago.setCellStyle(cellStyleRojo);
+		cellHome.setCellStyle(cellStyleRojo);
+		cellH2H.setCellStyle(cellStyleRojo);
+		cellCheck.setCellStyle(cellStyleRojo);
+		cellSwift.setCellStyle(cellStyleRojo);
+		cellCentro.setCellStyle(cellStyleRojo);
+		cellROF.setCellStyle(cellStyleRojo);
+
+		// SUBTITULOS
+		//CAPTACION
+		cellCapSaldoProm.setCellValue(listaSubtitulo.get(0).getDescripcion());
+		cellCapICV.setCellValue(listaSubtitulo.get(1).getDescripcion());
+		cellCapTasa.setCellValue(listaSubtitulo.get(2).getDescripcion());
+		cellCapFondos.setCellValue(listaSubtitulo.get(3).getDescripcion());
+		cellCapTasa2.setCellValue(listaSubtitulo.get(4).getDescripcion());
+		//ENLACE
+		cellEnlaceTasa.setCellValue(listaSubtitulo.get(5).getDescripcion());
+		cellEnlaceCosto.setCellValue(listaSubtitulo.get(6).getDescripcion());
+		//NOMINA
+		cellNomNomina.setCellValue(listaSubtitulo.get(7).getDescripcion());
+		//COMERCIO PLUS
+		cellComContratado.setCellValue(listaSubtitulo.get(8).getDescripcion());
+		//TPV
+		cellTPVInd.setCellValue(listaSubtitulo.get(9).getDescripcion());
+		cellTPVNoAfiliacion.setCellValue(listaSubtitulo.get(10).getDescripcion());
+		cellTPVNoTPV.setCellValue(listaSubtitulo.get(11).getDescripcion());
+		cellTPVFacturacion.setCellValue(listaSubtitulo.get(12).getDescripcion());
+		cellTPVTasa.setCellValue(listaSubtitulo.get(13).getDescripcion());
+		cellTPVCondiciones.setCellValue(listaSubtitulo.get(14).getDescripcion());
+		//CREDITO
+		cellCredEnun.setCellValue(listaSubtitulo.get(15).getDescripcion());
+		cellCredCredito.setCellValue(listaSubtitulo.get(16).getDescripcion());
+		cellCredCond.setCellValue(listaSubtitulo.get(17).getDescripcion());
+		//SEGUROS
+		cellSegurosPoliza.setCellValue(listaSubtitulo.get(18).getDescripcion());
+		cellSegurosMonto.setCellValue(listaSubtitulo.get(19).getDescripcion());
+		//PAGO REFERENCIADO
+		cellPagoCostos.setCellValue(listaSubtitulo.get(20).getDescripcion());
+		cellPagoCondiciones.setCellValue(listaSubtitulo.get(21).getDescripcion());
+		//HOME DEPOSIT
+		cellHomeCostos.setCellValue(listaSubtitulo.get(22).getDescripcion());
+		cellHomeCondiciones.setCellValue(listaSubtitulo.get(23).getDescripcion());
+		//H2H
+		cellH2HCostos.setCellValue(listaSubtitulo.get(24).getDescripcion());
+		cellH2HCondiciones.setCellValue(listaSubtitulo.get(25).getDescripcion());
+		//CHECK ON LINE
+		cellCheckCostos.setCellValue(listaSubtitulo.get(26).getDescripcion());
+		cellCheckCondiciones.setCellValue(listaSubtitulo.get(27).getDescripcion());
+		//SWIFT
+		cellSwiftCostos.setCellValue(listaSubtitulo.get(28).getDescripcion());
+		cellSwiftCondiciones.setCellValue(listaSubtitulo.get(29).getDescripcion());
+		//CENTRO DE COSTOS
+		cellCentroCostos.setCellValue(listaSubtitulo.get(30).getDescripcion());
+		cellCentroCondiciones.setCellValue(listaSubtitulo.get(31).getDescripcion());
+		//ROF
+		cellROFCambios.setCellValue(listaSubtitulo.get(32).getDescripcion());
+		cellResolucion.setCellValue("RESOLUCION");
+		cellComentario.setCellValue("COMENTARIO");
+		cellBucsRel.setCellValue("BUCS RELACIONADOS");
+
+		//CAPTACION
+		cellCapSaldoProm.setCellStyle(cellStyleRojo);
+		cellCapICV.setCellStyle(cellStyleRojo);
+		cellCapTasa.setCellStyle(cellStyleRojo);
+		cellCapFondos.setCellStyle(cellStyleRojo);
+		cellCapTasa2.setCellStyle(cellStyleRojo);
+		//ENLACE
+		cellEnlaceTasa.setCellStyle(cellStyleRojo);
+		cellEnlaceCosto.setCellStyle(cellStyleRojo);
+		//NOMINA
+		cellNomNomina.setCellStyle(cellStyleRojo);
+		//COMERCIO PLUS
+		cellComContratado.setCellStyle(cellStyleRojo);
+		//TPV
+		cellTPVInd.setCellStyle(cellStyleRojo);
+		cellTPVNoAfiliacion.setCellStyle(cellStyleRojo);
+		cellTPVNoTPV.setCellStyle(cellStyleRojo);
+		cellTPVFacturacion.setCellStyle(cellStyleRojo);
+		cellTPVTasa.setCellStyle(cellStyleRojo);
+		cellTPVCondiciones.setCellStyle(cellStyleRojo);
+		//CREDITO
+		cellCredEnun.setCellStyle(cellStyleRojo);
+		cellCredCredito.setCellStyle(cellStyleRojo);
+		cellCredCond.setCellStyle(cellStyleRojo);
+		//SEGURO
+		cellSegurosPoliza.setCellStyle(cellStyleRojo);
+		cellSegurosMonto.setCellStyle(cellStyleRojo);
+		//PAGO REFERENCIADO
+		cellPagoCostos.setCellStyle(cellStyleRojo);
+		cellPagoCondiciones.setCellStyle(cellStyleRojo);
+		//HOME DEPOSIT
+		cellHomeCostos.setCellStyle(cellStyleRojo);
+		cellHomeCondiciones.setCellStyle(cellStyleRojo);
+		//H2H
+		cellH2HCostos.setCellStyle(cellStyleRojo);
+		cellH2HCondiciones.setCellStyle(cellStyleRojo);
+		//CHECK ON LINE
+		cellCheckCostos.setCellStyle(cellStyleRojo);
+		cellCheckCondiciones.setCellStyle(cellStyleRojo);
+		//SWITD
+		cellSwiftCostos.setCellStyle(cellStyleRojo);
+		cellSwiftCondiciones.setCellStyle(cellStyleRojo);
+		//CENTRO DE PAGOS
+		cellCentroCostos.setCellStyle(cellStyleRojo);
+		cellCentroCondiciones.setCellStyle(cellStyleRojo);
+		//ROF
+		cellROFCambios.setCellStyle(cellStyleRojo);
+		cellResolucion.setCellStyle(cellStyleVerde);
+		cellComentario.setCellStyle(cellStyleVerde);
+		cellBucsRel.setCellStyle(cellStyleVerde);
+
+		cellTitulo.setCellValue("Seguimiento Acta de Rones Transaccionales");
+		cellStyleTitulo.setFont(font);
+		cellTitulo.setCellStyle(cellStyleTitulo);
+
+	}
