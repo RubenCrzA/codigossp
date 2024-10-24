@@ -1,54 +1,27 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <title></title>
-</head>
-
-<body>
-    <table cellpadding="0" cellspacing="0" border="0" align="center" style="width: 100%; background-color: #f7f7f7; padding: 20px;">
-        <tr>
-            <td align="center">
-                <!-- Tabla principal con imágenes para simular el borde redondeado -->
-                <table cellpadding="0" cellspacing="0" border="0" style="width: 600px; background-color: #ffffff; border-collapse: collapse;">
-                    <!-- Esquinas superiores con imágenes -->
-                    <tr>
-                        <td style="width: 10px; height: 10px;">
-                            <img src="top-left.png" width="10" height="10" alt="" style="display: block;">
-                        </td>
-                        <td style="background-color: #d52525; height: 10px;">&nbsp;</td>
-                        <td style="width: 10px; height: 10px;">
-                            <img src="top-right.png" width="10" height="10" alt="" style="display: block;">
-                        </td>
-                    </tr>
-                    <!-- Contenido principal -->
-                    <tr>
-                        <td style="background-color: #d52525;">&nbsp;</td>
-                        <td style="background-color: #ffffff; padding: 20px;">
-                            <span style="font-size: 24px; font-weight: bold; color: #d52525;">
-                                ¡Cita agendada!
-                            </span>
-                            <p style="color: #666666; font-size: 16px; line-height: 24px;">
-                                Hola, este es un ejemplo de cómo se puede estructurar un contenido con un efecto visual de bordes redondeados usando imágenes.
-                            </p>
-                        </td>
-                        <td style="background-color: #d52525;">&nbsp;</td>
-                    </tr>
-                    <!-- Esquinas inferiores con imágenes -->
-                    <tr>
-                        <td style="width: 10px; height: 10px;">
-                            <img src="bottom-left.png" width="10" height="10" alt="" style="display: block;">
-                        </td>
-                        <td style="background-color: #d52525; height: 10px;">&nbsp;</td>
-                        <td style="width: 10px; height: 10px;">
-                            <img src="bottom-right.png" width="10" height="10" alt="" style="display: block;">
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-</body>
-
-</html>
+<table style="border-collapse: collapse; width: 500px; height: 300px;">
+  <tr>
+    <td style="width: 10px; height: 10px;">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANElEQVR4nGP8////fwY0cE1NDV2IgYkYRQwMDAwshBTgNBGvQkKmMTAwMDARo4h0qwdGIQATOwm8z41cbAAAAABJRU5ErkJggg==" alt="esquina superior izquierda">
+    </td>
+    <td style="background-color: #f2f2f2; height: 10px;"></td>
+    <td style="width: 10px; height: 10px;">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAN0lEQVR4nGO8qqr6nwENaN26hS7EwIQhwsDAcE1NjTiFMMXIGnAqJNpEdGcQZeI1NTUqWk07hQAmKAm652U0mgAAAABJRU5ErkJggg==" alt="esquina superior derecha">
+    </td>
+  </tr>
+  <tr>
+    <td style="background-color: #f2f2f2;"></td>
+    <td style="background-color: #f2f2f2;">
+      <p>Contenido del correo</p>
+    </td>
+    <td style="background-color: #f2f2f2;"></td>
+  </tr>
+  <tr>
+    <td style="width: 10px; height: 10px;">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAL0lEQVR4nGO8qqr6n4EIwESMooFWqHXrFvEmEqOYaKsZ////jxKO19TUiDMRlzMAwRkM6T1Am2kAAAAASUVORK5CYII=" alt="esquina inferior izquierda">
+    </td>
+    <td style="background-color: #f2f2f2; height: 10px;"></td>
+    <td style="width: 10px; height: 10px;">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAL0lEQVR4nGO8qqr6n4EIwESMoqGgUOvWLcIKtW7dIs1qFkImwQBWE9EVMTAwMAAAJPYJrKAdAdMAAAAASUVORK5CYII=" alt="esquina inferior derecha">
+    </td>
+  </tr>
+</table>
