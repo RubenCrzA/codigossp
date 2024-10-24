@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    <table cellpadding="0" cellspacing="0" border="0" align="center" style="width: 100%; background-color: #f7f7f7; padding: 20px;">
+        <tr>
+            <td align="center">
+                <!-- Tabla principal con "borde redondeado" simulado -->
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 600px; background-color: #ffffff; border-collapse: collapse;">
+                    <!-- Fila superior redondeada -->
+                    <tr>
+                        <td style="width: 10px; height: 10px; background-color: #d52525; border-top-left-radius: 10px;">&nbsp;</td>
+                        <td style="background-color: #d52525;">&nbsp;</td>
+                        <td style="width: 10px; height: 10px; background-color: #d52525; border-top-right-radius: 10px;">&nbsp;</td>
+                    </tr>
+                    <!-- Contenido principal -->
+                    <tr>
+                        <td style="background-color: #d52525;">&nbsp;</td>
+                        <td style="background-color: #ffffff; padding: 20px;">
+                            <span style="font-size: 24px; font-weight: bold; color: #d52525;">
+                                ¡Cita agendada!
+                            </span>
+                            <p style="color: #666666; font-size: 16px; line-height: 24px;">
+                                Hola, este es un ejemplo de cómo se puede estructurar un contenido con un efecto visual de bordes redondeados en Outlook.
+                            </p>
+                        </td>
+                        <td style="background-color: #d52525;">&nbsp;</td>
+                    </tr>
+                    <!-- Fila inferior redondeada -->
+                    <tr>
+                        <td style="width: 10px; height: 10px; background-color: #d52525; border-bottom-left-radius: 10px;">&nbsp;</td>
+                        <td style="background-color: #d52525;">&nbsp;</td>
+                        <td style="width: 10px; height: 10px; background-color: #d52525; border-bottom-right-radius: 10px;">&nbsp;</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
