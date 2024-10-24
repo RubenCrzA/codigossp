@@ -89,15 +89,16 @@
         </div>
         <div>
             <img src="data:image/png;base64,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"/>
+            <!-- src=\"http://www.apache.org/images/feather.gif\ -->
         </div>
         <div>
-            <span class="nombreEjecutivo">$ejecutivo</span>
+            <span class="nombreEjecutivo">Lizbeth</span>
         </div>
         <div class="div-fecha">
             <table  class="table-fecha">
                 <tr><td>Reserva la fecha</td></tr>
-                <tr><td style="border-top: 1px solid red;">$fecha</td></tr>
-                <tr><td>$hora</td></tr>
+                <tr><td style="border-top: 1px solid red;">Jueves 11 de noviembre </td></tr>
+                <tr><td>12:00 PM</td></tr>
             </table>
         </div>
 
@@ -105,19 +106,19 @@
             <table  class="table-cliente">
                 <tr>
                     <td class="encabezado-cliente">Cliente:</td>
-                    <td class="dato-cliente">$nombreCliente</td>
+                    <td class="dato-cliente">Yareli Elizarraraz segoviano</td>
                 </tr>
                 <tr>
                     <td class="encabezado-cliente">Tel&eacute;fono:</td>
-                    <td class="dato-cliente">$telefono</td>
+                    <td class="dato-cliente">5521833285</td>
                 </tr>
                 <tr>
                     <td class="encabezado-cliente">Correo:</td>
-                    <td class="dato-cliente">$correo</td>
+                    <td class="dato-cliente">mik-307@hotmail.com</td>
                 </tr>
                 <tr>
                     <td class="encabezado-cliente">Motivo :</td>
-                    <td class="dato-cliente">Preapertura de Cuenta</td>
+                    <td class="dato-cliente">Solicitud de Cr&eacute;dito</td>
                 </tr>
             </table>
         </div>
@@ -127,7 +128,7 @@
         </div>
 
         <div class="suc-ubi">
-            <span>Sucursal: $sucursalEje</span>
+            <span>Sucursal: 5841 Plaza Obregon</span>
         </div>
     </div>
     <div class="img-pyme">
