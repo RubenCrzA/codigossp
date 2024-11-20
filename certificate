@@ -1,0 +1,17 @@
+ private static void _trustAllHttpsCertificates() {
+        SSLContext context;
+
+        // Create a trust manager that does not validate certificate chains
+        if (_trustManagers == null) {
+            _trustManagers = new TrustManager[]{new FakeX509TrustManager()};
+        } // if
+        // Install the all-trusting trust manager:
+        try {
+            context = SSLContext.getInstance("SSL");
+            context.init(null, _trustManagers, new SecureRandom());
+          
+        } catch (GeneralSecurityException gse) {
+            throw new IllegalStateException(gse.getMessage());
+        } // catch
+        HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
+    } /
