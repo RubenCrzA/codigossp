@@ -1,0 +1,2 @@
+long milis = new java.util.GregorianCalendar().getTimeInMillis();
+		SecureRandom r = new SecureRandom(milis);
