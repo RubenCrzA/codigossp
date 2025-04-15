@@ -1,0 +1,75 @@
+Checklist para migrar de Spring 3 a Spring 6
+1. Requisitos base de Spring 6
+Requisito	Valor mínimo
+Java	17
+Servlet API	Jakarta Servlet 6.0 (jakarta.servlet.*)
+Spring Framework	6.x
+Tomcat	10.1+ o 11
+Dependencias externas	Compatibles con Jakarta (no javax.*)
+2. Pasos principales
+Paso 1: Subir a Java 17
+
+    Cambia tu JDK local
+
+    Actualiza pom.xml:
+
+<properties>
+  <java.version>17</java.version>
+</properties>
+
+Paso 2: Migrar a Spring 5 primero (opcional pero recomendable)
+
+    Spring 5 es compatible con javax.servlet.*, lo cual facilita transición
+
+    Te permite hacer refactors graduales antes del salto a jakarta.*
+
+    Pruebas regresión más controladas
+
+Paso 3: Migrar a Spring 6
+
+    Actualiza todas las dependencias de Spring:
+
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-webmvc</artifactId>
+  <version>6.1.4</version>
+</dependency>
+
+Y análogas para spring-context, spring-core, spring-beans, etc.
+Paso 4: Migrar de javax. a jakarta. (clave)**
+
+Ejemplos:
+
+// antes:
+import javax.servlet.http.HttpServlet;
+
+// después:
+import jakarta.servlet.http.HttpServlet;
+
+También aplica a:
+
+    javax.servlet.Filter → jakarta.servlet.Filter
+
+    javax.annotation.* → jakarta.annotation.* (en algunos casos)
+
+Hazlo en:
+
+    Clases Java
+
+    web.xml
+
+    Clases de configuración (si usas Java Config)
+
+    Dependencias externas (ojo con librerías de terceros)
+
+Paso 5: Verifica que tus librerías sean Jakarta-ready
+
+    Jackson, Hibernate, Spring Security, Apache Commons, etc.
+
+    Usa versiones que indiquen compatibilidad con Spring 6 o Jakarta EE 10
+
+Paso 6: Migrar configuraciones antiguas
+
+    Spring 3 usaba muchos *.xml. En Spring 6 se recomienda Java Config.
+
+    Puedes seguir usando XML, pero deberás asegurarte de que las clases apuntadas existan y sean compatibles.
